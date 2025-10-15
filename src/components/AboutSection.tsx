@@ -37,10 +37,10 @@ export const AboutSection = () => {
                 For over a decade, Sodfaa||صُدفةة has been at the forefront of luxury accessories, 
                 creating timeless pieces that blend sophistication with functionality. Our 
                 commitment to exceptional craftsmanship and premium materials ensures that 
-                every bag tells a story of elegance and durability.
+                every accessory tells a story of elegance and durability.
               </p>
               <p>
-                We believe that the perfect bag is more than just an accessory—it's a 
+                We believe that the perfect accessory is more than just an item—it's a 
                 companion that accompanies you through life's important moments. From 
                 boardroom meetings to weekend adventures, our collections are designed 
                 to elevate your style while meeting your practical needs.

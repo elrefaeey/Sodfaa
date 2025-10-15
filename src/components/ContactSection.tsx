@@ -42,8 +42,8 @@ export const ContactSection = () => {
     {
       icon: Mail,
       title: "Email",
-      content: "hello@mybag.com",
-      link: "mailto:hello@mybag.com"
+      content: "hello@sodfaa.com",
+      link: "mailto:hello@sodfaa.com"
     },
     {
       icon: Phone,
@@ -65,17 +65,25 @@ export const ContactSection = () => {
     </svg>
   );
 
+  const handleWhatsAppClick = () => {
+    window.open('https://wa.me/201031901879', '_blank');
+  };
+
+  const handleInstagramClick = () => {
+    window.open('https://www.instagram.com/sodfaa__store/', '_blank');
+  };
+
   const socialLinks = [
     {
       name: "WhatsApp",
       icon: MessageSquare,
-      link: "https://wa.me/15551234567",
+      onClick: handleWhatsAppClick,
       color: "hover:text-green-600"
     },
     {
       name: "Instagram",
       icon: InstagramIcon,
-      link: "https://www.instagram.com/sodfaa__store/",
+      onClick: handleInstagramClick,
       color: "hover:text-pink-600"
     }
   ];
@@ -175,15 +183,13 @@ export const ContactSection = () => {
               <h4 className="text-lg font-semibold mb-4">Follow Us</h4>
               <div className="flex gap-4">
                 {socialLinks.map((social) => (
-                  <a
+                  <button
                     key={social.name}
-                    href={social.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    onClick={social.onClick}
                     className={`w-12 h-12 bg-white rounded-lg flex items-center justify-center shadow-soft transition-all duration-200 hover:shadow-medium hover:scale-110 ${social.color}`}
                   >
                     <social.icon className="h-6 w-6" />
-                  </a>
+                  </button>
                 ))}
               </div>
             </div>

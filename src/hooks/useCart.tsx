@@ -2,8 +2,8 @@ import { useState, useCallback, useEffect, createContext, useContext, ReactNode 
 import { CartItem } from '@/data/orders';
 import { DiscountCode, validateDiscountCode } from '@/services/discountService';
 
-const CART_STORAGE_KEY = 'mybag-cart';
-const DISCOUNT_STORAGE_KEY = 'mybag-discount';
+const CART_STORAGE_KEY = 'sodfaa-cart';
+const DISCOUNT_STORAGE_KEY = 'sodfaa-discount';
 
 // Check if localStorage is available
 const isStorageAvailable = (): boolean => {

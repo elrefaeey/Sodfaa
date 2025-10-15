@@ -70,7 +70,7 @@ export const WhatsAppSettings: React.FC = () => {
       items: [
         {
           id: 'test-1',
-          productId: 'bag-1',
+          productId: 'accessory-1',
           name: 'حقيبة يد أنيقة',
           price: 250,
           quantity: 1,
@@ -79,7 +79,7 @@ export const WhatsAppSettings: React.FC = () => {
         },
         {
           id: 'test-2',
-          productId: 'bag-2',
+          productId: 'accessory-2',
           name: 'حقيبة ظهر رياضية',
           price: 180,
           quantity: 2,

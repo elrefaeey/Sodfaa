@@ -45,7 +45,7 @@ export const HomepageProductsSection = ({ onNavigateToCart, onNavigateToProducts
         <div className="text-center mb-8 sm:mb-12">
           <h2 className="text-3xl sm:text-4xl font-bold mb-4">Our Products</h2>
           <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto">
-            Discover our curated collection of premium bags and accessories
+            Discover our curated collection of premium accessories and fashion items
           </p>
         </div>
 

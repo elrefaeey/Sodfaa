@@ -56,7 +56,7 @@ export const formatOrderMessage = (orderData: OrderData): string => {
   const arabicDate = now.toLocaleDateString('ar-EG', dateOptions);
 
   // Create the complete message in Arabic
-  const message = `🛍️ *طلب جديد من SALMA BAG* 🛍️
+  const message = `🛍️ *طلب جديد من Sodfaa||صُدفةة* 🛍️
 
 📋 *تفاصيل الطلب:*
 رقم الطلب: #${orderId}
@@ -78,7 +78,7 @@ ${itemsList}
 
 سنتواصل معك لتأكيد الطلب قريبًا.
 
-*شكراً لك على استخدام SALMA BAG* 💝`;
+*شكراً لك على استخدام Sodfaa||صُدفةة* 💝`;
 
   return message;
 };
