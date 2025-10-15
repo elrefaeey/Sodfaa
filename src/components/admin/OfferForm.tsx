@@ -201,7 +201,7 @@ export const OfferForm = ({ isOpen, onClose, products, onSave }: OfferFormProps)
             </Button>
             <Button
               type="submit"
-              className="h-11 rounded-full bg-black text-white hover:bg-black/90 hover:ring-2 hover:ring-accent hover:shadow-accent transition"
+              className="h-11 rounded-full btn-gold-real hover:ring-2 hover:ring-accent hover:shadow-accent transition magnetic-hover"
             >
               إنشاء العرض
             </Button>

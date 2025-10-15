@@ -16,9 +16,9 @@ export interface OrderData {
   shippingCost?: number;
 }
 
-// Fixed WhatsApp phone number (Egypt): +20 10 6879 8221
+// Fixed WhatsApp phone number (Egypt): +20 103 190 1879
 const getWhatsAppPhone = (): string => {
-  return '201068798221';
+  return '201031901879';
 };
 
 export const formatOrderMessage = (orderData: OrderData): string => {

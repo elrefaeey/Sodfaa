@@ -99,12 +99,23 @@ export const EnhancedProductForm: React.FC<EnhancedProductFormProps> = ({
       return;
     }
 
-    const validColors = colors.filter(color => color.name && color.image);
+    const validColors = colors.filter(color => color.image);
     
     if (validColors.length === 0) {
       toast({
         title: "خطأ في التحقق",
-        description: "يرجى إضافة لون واحد على الأقل مع صورة",
+        description: "يرجى إضافة رابط صورة واحد على الأقل",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    // التحقق من أن جميع الألوان لها روابط صور
+    const colorsWithoutImages = colors.filter(color => !color.image);
+    if (colorsWithoutImages.length > 0) {
+      toast({
+        title: "خطأ في التحقق",
+        description: "جميع الألوان يجب أن تحتوي على رابط صورة",
         variant: "destructive"
       });
       return;
@@ -218,63 +229,79 @@ export const EnhancedProductForm: React.FC<EnhancedProductFormProps> = ({
                   </div>
                   <div className="space-y-1.5 md:col-span-2">
                     <Label className="text-sm font-medium">الفئة *</Label>
-                    <div className="flex items-center gap-2">
-                      <div className="flex-1">
-                        <Select value={formData.category} onValueChange={(value) => handleInputChange('category', value)}>
-                          <SelectTrigger className="h-11 rounded-lg">
-                            <SelectValue placeholder="اختر الفئة" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {categoriesLoading ? (
-                              <SelectItem value="loading" disabled>جاري التحميل...</SelectItem>
-                            ) : (
-                              categories.map((category) => (
-                                <SelectItem key={category.id} value={category.id}>
-                                  <div className="flex items-center justify-between gap-3">
-                                    <span>{category.name}</span>
-                                    <Button
-                                      type="button"
-                                      size="icon"
-                                      variant="ghost"
-                                      className="h-7 w-7 rounded-full"
-                                      onClick={(e) => {
-                                        e.stopPropagation();
-                                        setEditingCategoryId(category.id);
-                                        setNewCategoryName(category.name);
-                                        setShowNewCategoryDialog(true);
-                                      }}
-                                      aria-label={`تعديل ${category.name}`}
-                                    >
-                                      <Edit className="h-3.5 w-3.5" />
-                                    </Button>
-                                  </div>
-                                </SelectItem>
-                              ))
-                            )}
-                          </SelectContent>
-                        </Select>
-                      </div>
-                      <Button type="button" variant="outline" size="sm" onClick={() => setShowNewCategoryDialog(true)} className="rounded-full whitespace-nowrap">
-                        <Plus className="h-4 w-4 ml-1" /> إضافة فئة
-                      </Button>
-                    </div>
+                    <Select value={formData.category} onValueChange={(value) => handleInputChange('category', value)}>
+                      <SelectTrigger className="h-11 rounded-xl border-gray-300 focus:border-gold-classic focus:ring-gold-classic">
+                        <SelectValue placeholder="اختر الفئة" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {categoriesLoading ? (
+                          <SelectItem value="loading" disabled>جاري التحميل...</SelectItem>
+                        ) : (
+                          categories.map((category) => (
+                            <SelectItem key={category.id} value={category.id}>
+                              <span className="font-medium">{category.name}</span>
+                            </SelectItem>
+                          ))
+                        )}
+                      </SelectContent>
+                    </Select>
                     <p className="text-xs text-muted-foreground">يمكنك إنشاء فئة جديدة إن لم تكن موجودة</p>
                   </div>
                 </CardContent>
               </Card>
 
-              <Card className="shadow-soft">
-                <CardHeader className="pb-3">
-                  <CardTitle className="text-lg">الإعدادات</CardTitle>
+              <Card className="shadow-soft border border-gray-200/60">
+                <CardHeader className="pb-4 bg-gradient-to-r from-slate-50 to-gray-50 rounded-t-lg">
+                  <CardTitle className="text-lg font-semibold text-gray-800">الإعدادات</CardTitle>
                 </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <Label htmlFor="inStock" className="text-sm font-medium">متوفر في المخزون</Label>
-                    <Switch id="inStock" checked={formData.inStock} onCheckedChange={(checked) => handleInputChange('inStock', checked)} />
+                <CardContent className="space-y-6 p-6">
+                  <div className="flex items-center justify-between p-4 bg-white rounded-xl border border-gray-100 hover:border-gold-classic/30 transition-colors duration-200">
+                    <div className="flex items-center gap-4">
+                      <div className="relative">
+                        <div className={`w-6 h-6 rounded-full border-2 transition-all duration-200 ${
+                          formData.inStock 
+                            ? 'bg-green-500 border-green-500 shadow-lg shadow-green-500/30' 
+                            : 'bg-gray-100 border-gray-300'
+                        }`}>
+                          {formData.inStock && (
+                            <div className="absolute inset-0 flex items-center justify-center">
+                              <div className="w-2 h-2 bg-white rounded-full"></div>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                      <Label htmlFor="inStock" className="text-sm font-medium text-gray-700">متوفر في المخزون</Label>
+                    </div>
+                    <Switch 
+                      id="inStock" 
+                      checked={formData.inStock} 
+                      onCheckedChange={(checked) => handleInputChange('inStock', checked)}
+                      className="data-[state=checked]:bg-gold-classic"
+                    />
                   </div>
-                  <div className="flex items-center justify-between">
-                    <Label htmlFor="featured" className="text-sm font-medium">منتج مميز</Label>
-                    <Switch id="featured" checked={formData.featured} onCheckedChange={(checked) => handleInputChange('featured', checked)} />
+                  <div className="flex items-center justify-between p-4 bg-white rounded-xl border border-gray-100 hover:border-gold-classic/30 transition-colors duration-200">
+                    <div className="flex items-center gap-4">
+                      <div className="relative">
+                        <div className={`w-6 h-6 rounded-full border-2 transition-all duration-200 ${
+                          formData.featured 
+                            ? 'bg-yellow-500 border-yellow-500 shadow-lg shadow-yellow-500/30' 
+                            : 'bg-gray-100 border-gray-300'
+                        }`}>
+                          {formData.featured && (
+                            <div className="absolute inset-0 flex items-center justify-center">
+                              <div className="w-2 h-2 bg-white rounded-full"></div>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                      <Label htmlFor="featured" className="text-sm font-medium text-gray-700">منتج مميز</Label>
+                    </div>
+                    <Switch 
+                      id="featured" 
+                      checked={formData.featured} 
+                      onCheckedChange={(checked) => handleInputChange('featured', checked)}
+                      className="data-[state=checked]:bg-gold-classic"
+                    />
                   </div>
                 </CardContent>
               </Card>
@@ -299,12 +326,12 @@ export const EnhancedProductForm: React.FC<EnhancedProductFormProps> = ({
                       </div>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div className="space-y-1.5">
-                          <Label className="text-sm">اسم اللون</Label>
+                          <Label className="text-sm">اسم اللون (اختياري)</Label>
                           <Input value={color.name} onChange={(e) => handleColorChange(index, 'name', e.target.value)} placeholder="مثال: أسود، أبيض، بني" className="h-11 rounded-lg" />
                         </div>
                         <div className="space-y-1.5">
-                          <Label className="text-sm">رابط صورة اللون</Label>
-                          <Input value={color.image} onChange={(e) => handleColorChange(index, 'image', e.target.value)} placeholder="https://example.com/image.jpg" className="h-11 rounded-lg" />
+                          <Label className="text-sm">رابط صورة اللون *</Label>
+                          <Input value={color.image} onChange={(e) => handleColorChange(index, 'image', e.target.value)} placeholder="https://example.com/image.jpg" required className="h-11 rounded-lg" />
                         </div>
                       </div>
                     </div>
@@ -333,7 +360,7 @@ export const EnhancedProductForm: React.FC<EnhancedProductFormProps> = ({
             {/* Submit Buttons */}
             <div className="flex flex-col sm:flex-row justify-end gap-3 pt-2">
               <Button type="button" variant="outline" onClick={onClose} className="h-11 rounded-full sm:min-w-[120px]">إلغاء</Button>
-              <Button type="submit" className="h-11 rounded-full bg-black text-white hover:bg-black/90 sm:min-w-[140px]">
+              <Button type="submit" className="h-11 rounded-full btn-gold-real sm:min-w-[140px] magnetic-hover">
                 {product ? 'تحديث المنتج' : 'إضافة المنتج'}
               </Button>
             </div>

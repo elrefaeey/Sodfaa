@@ -17,14 +17,14 @@ export const Footer = ({
 
   // Developer WhatsApp contact message in Arabic
   const developerWhatsapp = '201092940685';
-  const developerMessage = 'جئت من موقع MY BAG، هل يمكنني الحصول على مزيد من التفاصيل إذا أردت إنشاء موقع؟';
+  const developerMessage = 'جئت من موقع Sodfaa||صُدفةة، هل يمكنني الحصول على مزيد من التفاصيل إذا أردت إنشاء موقع؟';
 
   const handleInstagramClick = () => {
-    window.open('https://www.instagram.com/mybagg2025?igsh=MTlvb2E4a3R2aHZhOQ==', '_blank');
+    window.open('https://www.instagram.com/sodfaa__store/', '_blank');
   };
 
   const handleWhatsAppClick = () => {
-    window.open('https://wa.me/201068798221', '_blank');
+    window.open('https://wa.me/201031901879', '_blank');
   };
 
   const scrollToSection = (href: string) => {
@@ -36,20 +36,25 @@ export const Footer = ({
 
   return (
     <>
-      <footer className="bg-white text-gray-800 border-t border-clean-neutral">
+      <footer className="arabic-bg text-gray-800 border-t border-clean-neutral">
         <div className="container mx-auto px-4 py-8 sm:py-12">
           {/* Mobile-First Vertical Stack Layout */}
           <div className="flex flex-col items-center text-center space-y-8">
 
             {/* Brand Section */}
             <div className="space-y-4">
-              <h2 className="text-3xl sm:text-4xl font-bold text-black tracking-wide">MY BAG</h2>
+              {/* Arabic Decorative Element */}
+              <div className="flex justify-center">
+                <div className="w-20 h-1 bg-gradient-to-r from-transparent via-[#E6BE8A] to-transparent opacity-80"></div>
+              </div>
+              <h2 className="text-3xl sm:text-4xl font-bold text-black tracking-wide font-arabic-elegant">Sodfaa||صُدفةة</h2>
+              {/* Arabic Decorative Element */}
+              <div className="flex justify-center">
+                <div className="w-16 h-1 bg-gradient-to-r from-transparent via-[#E6BE8A] to-transparent opacity-80"></div>
+              </div>
               <div className="space-y-2 max-w-sm sm:max-w-md">
                 <p className="text-gray-600 text-sm sm:text-base leading-relaxed font-light">
-                  Discover premium handbags and accessories crafted for the modern lifestyle.
-                </p>
-                <p className="text-gray-600 text-sm sm:text-base leading-relaxed font-light">
-                  Style meets quality in every piece.
+                  Discover everything you need — from modern trends to luxury, beauty, and elegance — all in one place at Sodfaa.
                 </p>
               </div>
             </div>
@@ -79,14 +84,14 @@ export const Footer = ({
               <div className="flex flex-col space-y-4">
                 <button
                   onClick={handleInstagramClick}
-                  className="flex items-center justify-center gap-3 text-gray-600 hover:text-clean-accent transition-colors duration-200 text-sm sm:text-base font-medium"
+                  className="flex items-center justify-center gap-3 text-gray-600 hover:text-clean-accent transition-all duration-300 text-sm sm:text-base font-medium magnetic-hover"
                 >
                   <span className="text-xl">📷</span>
                   Instagram
                 </button>
                 <button
                   onClick={handleWhatsAppClick}
-                  className="flex items-center justify-center gap-3 text-gray-600 hover:text-clean-accent transition-colors duration-200 text-sm sm:text-base font-medium"
+                  className="flex items-center justify-center gap-3 text-gray-600 hover:text-clean-accent transition-all duration-300 text-sm sm:text-base font-medium magnetic-hover"
                 >
                   <span className="text-xl">💬</span>
                   WhatsApp
@@ -106,7 +111,7 @@ export const Footer = ({
                 </button>
 
                 <p className="text-xs sm:text-sm text-gray-500 font-light text-center">
-                  © 2025 MY BAG. All rights reserved.<br />
+                  © 2025 Sodfaa||صُدفةة. All rights reserved.<br />
                   Developed by{' '}
                   <a
                     href={`https://wa.me/${developerWhatsapp}?text=${encodeURIComponent(developerMessage)}`}

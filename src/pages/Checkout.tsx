@@ -127,31 +127,37 @@ export const Checkout = ({ cart, onBackToHome, onOrderSuccess }: CheckoutProps) 
 
   const calculateShippingCost = (governorateName: string): number => {
     const shippingRates: Record<string, number> = {
-      "القاهرة": 66,
-      "الجيزة": 66,
-      "الإسكندرية": 72,
-      "الدقهلية": 83,
-      "الغربية": 83,
-      "كفر الشيخ": 83,
-      "المنوفية": 83,
-      "الشرقية": 83,
-      "دمياط": 83,
-      "بورسعيد": 83,
-      "الإسماعيلية": 83,
-      "السويس": 83,
-      "بني سويف": 99,
-      "الفيوم": 99,
-      "المنيا": 99,
-      "أسيوط": 99,
-      "سوهاج": 99,
-      "قنا": 99,
-      "الأقصر": 99,
-      "أسوان": 99,
-      "البحر الأحمر": 99,
-      "الوادي الجديد": 132,
-      "جنوب سيناء": 132,
-      "مطروح": 132,
-      "شرم الشيخ": 132
+      // 65 EGP
+      "القاهرة": 65,
+      "الجيزة": 65,
+      // 75 EGP
+      "الإسكندرية": 75,
+      "القليوبية": 75,
+      "المنوفية": 75,
+      "الشرقية": 75,
+      "الغربية": 75,
+      "الدقهلية": 75,
+      "كفر الشيخ": 75,
+      "البحيرة": 75,
+      "بني سويف": 75,
+      "الفيوم": 75,
+      "المنيا": 75,
+      "أسيوط": 75,
+      "سوهاج": 75,
+      "دمياط": 75,
+      "الإسماعيلية": 75,
+      "بورسعيد": 75,
+      "السويس": 75,
+      // 110 EGP
+      "البحر الأحمر": 110,
+      "أسوان": 110,
+      "الأقصر": 110,
+      "الوادي الجديد": 110,
+      "مطروح": 110,
+      "شمال سيناء": 110,
+      "جنوب سيناء": 110,
+      // Not specified in the update, keep previous or set a sensible default
+      "قنا": 110
     };
     return shippingRates[governorateName] || 0;
   };
@@ -266,9 +272,9 @@ export const Checkout = ({ cart, onBackToHome, onOrderSuccess }: CheckoutProps) 
 
   return (
     <div dir="rtl" className="min-h-screen bg-secondary/30 py-8">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="container mx-auto px-3 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="flex items-center justify-between gap-4 mb-4 sm:mb-6">
+        <div className="flex items-center justify-between gap-2 sm:gap-4 mb-3 sm:mb-6">
           <Button
             variant="ghost"
             onClick={onBackToHome}
@@ -278,8 +284,8 @@ export const Checkout = ({ cart, onBackToHome, onOrderSuccess }: CheckoutProps) 
             العودة للتسوق
           </Button>
           <div className="text-right">
-            <h1 className="text-3xl font-bold">إتمام الشراء</h1>
-            <p className="text-muted-foreground">أكمل طلبك</p>
+            <h1 className="text-2xl sm:text-3xl font-bold">إتمام الشراء</h1>
+            <p className="text-muted-foreground text-sm sm:text-base">أكمل طلبك</p>
           </div>
         </div>
 
@@ -288,16 +294,16 @@ export const Checkout = ({ cart, onBackToHome, onOrderSuccess }: CheckoutProps) 
           <DiscountBanner />
         </div>
 
-        {/* Layout: على الموبايل يظهر ملخص الطلب أولاً ثم الشحن */}
-        <div className="grid lg:grid-cols-2 gap-8 lg:gap-10">
+        {/* Layout: على الموبايل يظهر كرت الإجمالي أولاً ثم الملخص ثم الشحن */}
+        <div className="grid lg:grid-cols-2 gap-3 sm:gap-8 lg:gap-10">
             {/* Shipping Information */}
-            <Card className="shadow-soft order-2 lg:order-1">
+            <Card className="shadow-soft order-3 lg:order-1">
               <CardHeader>
-                <CardTitle className="text-right">معلومات الشحن</CardTitle>
+                <CardTitle className="text-right text-lg sm:text-xl">معلومات الشحن</CardTitle>
               </CardHeader>
               <CardContent>
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <div className="space-y-4">
+                <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
+                  <div className="space-y-3 sm:space-y-4">
                     <div>
                       <Label htmlFor="fullName" className="text-right block mb-2">الاسم الكامل</Label>
                       <Input
@@ -306,7 +312,7 @@ export const Checkout = ({ cart, onBackToHome, onOrderSuccess }: CheckoutProps) 
                         placeholder="أدخل اسمك الكامل"
                         value={formData.fullName}
                         onChange={handleChange}
-                        className="w-full text-right"
+                        className="w-full text-right h-10 sm:h-11"
                         dir="rtl"
                         required
                       />
@@ -320,7 +326,7 @@ export const Checkout = ({ cart, onBackToHome, onOrderSuccess }: CheckoutProps) 
                         placeholder="أدخل رقم هاتفك"
                         value={formData.primaryPhone}
                         onChange={handleChange}
-                        className="w-full text-right"
+                        className="w-full text-right h-10 sm:h-11"
                         dir="rtl"
                         required
                       />
@@ -334,7 +340,7 @@ export const Checkout = ({ cart, onBackToHome, onOrderSuccess }: CheckoutProps) 
                         placeholder="أدخل رقم هاتف إضافي (اختياري)"
                         value={formData.secondaryPhone}
                         onChange={handleChange}
-                        className="w-full text-right"
+                        className="w-full text-right h-10 sm:h-11"
                         dir="rtl"
                       />
                     </div>
@@ -354,7 +360,7 @@ export const Checkout = ({ cart, onBackToHome, onOrderSuccess }: CheckoutProps) 
                           setShippingCost(cost);
                         }}
                       >
-                        <SelectTrigger className="w-full text-right" dir="rtl">
+                        <SelectTrigger className="w-full text-right h-10 sm:h-11" dir="rtl">
                           <SelectValue placeholder="اختر المحافظة" />
                         </SelectTrigger>
                         <SelectContent>
@@ -376,7 +382,7 @@ export const Checkout = ({ cart, onBackToHome, onOrderSuccess }: CheckoutProps) 
                         placeholder="أدخل عنوانك بالتفصيل"
                         value={formData.detailedAddress}
                         onChange={handleChange}
-                        className="w-full text-right"
+                        className="w-full text-right min-h-[90px] sm:min-h-[110px]"
                         dir="rtl"
                         required
                       />
@@ -422,26 +428,26 @@ export const Checkout = ({ cart, onBackToHome, onOrderSuccess }: CheckoutProps) 
             </Card>
             
             {/* Order Summary */}
-            <Card className="shadow-soft lg:sticky lg:top-8 h-fit order-1 lg:order-2">
+            <Card className="shadow-soft lg:sticky lg:top-8 h-fit order-2 lg:order-2">
               <CardHeader>
-                <CardTitle className="text-right">ملخص الطلب</CardTitle>
+                <CardTitle className="text-right text-lg sm:text-xl">ملخص الطلب</CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
+              <CardContent className="space-y-3 sm:space-y-4">
                 {cart.map((item) => (
-                  <div key={item.id} className="flex flex-row-reverse gap-4 pb-4 border-b border-border last:border-b-0 items-center">
+                  <div key={item.id} className="flex flex-row-reverse gap-3 sm:gap-4 pb-3 sm:pb-4 border-b border-border last:border-b-0 items-center overflow-hidden">
                     <img
                       src={item.image}
                       alt={item.name}
-                      className="w-16 h-16 object-cover rounded-md"
+                      className="w-12 h-12 sm:w-16 sm:h-16 object-cover rounded-md shrink-0"
                     />
-                    <div className="flex-1 min-w-0 text-right">
-                      <h4 className="font-medium truncate">{item.name}</h4>
+                    <div className="flex-1 min-w-0 max-w-full text-right">
+                      <h4 className="font-medium text-xs sm:text-base leading-snug break-words">{item.name}</h4>
                       <p className="text-sm text-muted-foreground">{item.color}</p>
                       <div className="flex flex-row-reverse justify-between items-center mt-1 gap-2">
                         <div className="flex items-center gap-2">
-                          <Button size="sm" variant="outline" onClick={() => updateQuantity(item.productId, item.color, item.quantity + 1)}>+</Button>
+                          <Button size="sm" variant="outline" className="h-8 w-8 p-0" onClick={() => updateQuantity(item.productId, item.color, item.quantity + 1)}>+</Button>
                           <span className="text-sm">{item.quantity}</span>
-                          <Button size="sm" variant="outline" onClick={() => updateQuantity(item.productId, item.color, item.quantity - 1)}>-</Button>
+                          <Button size="sm" variant="outline" className="h-8 w-8 p-0" onClick={() => updateQuantity(item.productId, item.color, item.quantity - 1)}>-</Button>
                         </div>
                         <span className="text-sm font-semibold">جنيه {item.price * item.quantity}</span>
                       </div>
@@ -486,13 +492,13 @@ export const Checkout = ({ cart, onBackToHome, onOrderSuccess }: CheckoutProps) 
                       </div>
                     ) : (
                       <div className="space-y-2">
-                        <div className="flex gap-2">
+                        <div className="flex gap-2 items-stretch">
                           <Input
                             id="discount-code-input"
                             placeholder="أدخل كود الخصم"
                             value={discountCodeInput}
                             onChange={(e) => setDiscountCodeInput(e.target.value.toUpperCase())}
-                            className="flex-1 text-right"
+                            className="flex-1 text-right h-10 sm:h-11"
                             dir="rtl"
                             disabled={isValidatingDiscount}
                             ref={discountInputRef}
@@ -506,7 +512,7 @@ export const Checkout = ({ cart, onBackToHome, onOrderSuccess }: CheckoutProps) 
                               }
                             }}
                             disabled={!discountCodeInput.trim() || isValidatingDiscount}
-                            className="px-4"
+                            className="px-4 h-10 sm:h-11"
                           >
                             {isValidatingDiscount ? 'جارٍ التحقق...' : 'تطبيق'}
                           </Button>
@@ -548,16 +554,16 @@ export const Checkout = ({ cart, onBackToHome, onOrderSuccess }: CheckoutProps) 
               </CardContent>
             </Card>
 
-            {/* New Card: تفاصيل الطلب */}
-            <Card className="bg-pink-100 p-4 rounded-lg shadow-md">
+            {/* New Card: تفاصيل الطلب (first on mobile) */}
+            <Card className="bg-pink-100 p-3 sm:p-4 rounded-lg shadow-md order-1 lg:order-3">
               <CardHeader>
-                <CardTitle className="text-lg font-bold text-center">الإجمالي:</CardTitle>
+                <CardTitle className="text-base sm:text-lg font-bold text-center">الإجمالي:</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="text-center">
-                  <p className="text-2xl font-bold text-pink-600">EG {subtotal.toFixed(2)}</p>
-                  <p className="text-md font-medium text-gray-700">+ سعر التوصيل: EG {shippingPrice.toFixed(2)}</p>
-                  <p className="text-lg font-bold text-pink-700 mt-2">= الإجمالي الكلي: EG {total.toFixed(2)}</p>
+                  <p className="text-xl sm:text-2xl font-bold text-pink-600">EG {subtotal.toFixed(2)}</p>
+                  <p className="text-sm sm:text-md font-medium text-gray-700">+ سعر التوصيل: EG {shippingPrice.toFixed(2)}</p>
+                  <p className="text-base sm:text-lg font-bold text-pink-700 mt-2">= الإجمالي الكلي: EG {total.toFixed(2)}</p>
                 </div>
               </CardContent>
             </Card>

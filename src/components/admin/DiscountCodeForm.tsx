@@ -156,7 +156,7 @@ export const DiscountCodeForm = ({
           {/* Submit Button */}
           <div className="flex flex-col sm:flex-row gap-3 justify-end pb-4">
             <Button type="button" variant="ghost" onClick={onClose} className="btn-gradient-outline" disabled={isSubmitting}>إلغاء</Button>
-            <Button type="submit" className="h-11 rounded-full bg-black text-white hover:bg-black/90 hover:ring-2 hover:ring-accent hover:shadow-accent transition" disabled={isSubmitting}>
+            <Button type="submit" className="h-11 rounded-full btn-gold-real hover:ring-2 hover:ring-accent hover:shadow-accent transition magnetic-hover" disabled={isSubmitting}>
               {isSubmitting ? 'جارٍ الحفظ...' : discountCode ? 'تحديث الكود' : 'إنشاء الكود'}
             </Button>
           </div>

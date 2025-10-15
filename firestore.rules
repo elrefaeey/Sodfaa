@@ -5,29 +5,53 @@ service cloud.firestore {
     // Allow public read access to products and categories for the storefront
     match /products/{document} {
       allow read: if true;
-      allow write: if request.auth != null;
+      allow write: if true; // Temporarily allow all writes for development
     }
     
     match /categories/{document} {
       allow read: if true;
-      allow write: if request.auth != null;
+      allow write: if true; // Temporarily allow all writes for development
     }
     
     // Allow public read access to active offers for the storefront
     match /offers/{document} {
       allow read: if true;
-      allow write: if request.auth != null;
+      allow write: if true; // Temporarily allow all writes for development
+    }
+    
+    // Allow public read access to hero images
+    match /heroImages/{document} {
+      allow read: if true;
+      allow write: if true; // Temporarily allow all writes for development
+    }
+    
+    // Allow public read access to banner text
+    match /bannerText/{document} {
+      allow read: if true;
+      allow write: if true; // Temporarily allow all writes for development
+    }
+    
+    // Allow public read access to discount codes
+    match /discountCodes/{document} {
+      allow read: if true;
+      allow write: if true; // Temporarily allow all writes for development
+    }
+    
+    // Allow public read access to delivery areas
+    match /deliveryAreas/{document} {
+      allow read: if true;
+      allow write: if true; // Temporarily allow all writes for development
     }
     
     // Orders: allow anyone to create (place orders), only authenticated users can read/update/delete
     match /orders/{document} {
       allow create: if true; // public can place orders
-      allow read, update, delete: if request.auth != null;
+      allow read, update, delete: if true; // Temporarily allow all for development
     }
     
-    // Allow authenticated users to manage any other collections
+    // Allow all access for development - REMOVE IN PRODUCTION
     match /{document=**} {
-      allow read, write: if request.auth != null;
+      allow read, write: if true;
     }
   }
 }

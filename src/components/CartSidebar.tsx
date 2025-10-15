@@ -28,7 +28,7 @@ export const CartSidebar = ({
             <p className="text-muted-foreground mb-6">
               أضف بعض الحقائب الجميلة للبدء!
             </p>
-            <Button className="btn-accent" onClick={onClose}>
+            <Button className="btn-gold-real magnetic-hover" onClick={onClose}>
               متابعة التسوق
             </Button>
           </div>

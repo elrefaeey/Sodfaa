@@ -152,7 +152,7 @@ export const Cart = ({ onBackToHome, onNavigateToCheckout }: CartProps) => {
                 <p className="text-muted-foreground mb-6">
                   Looks like you haven't added any items to your cart yet.
                 </p>
-                <Button onClick={onBackToHome} className="btn-gold">
+                <Button onClick={onBackToHome} className="btn-gold-real magnetic-hover">
                   Continue Shopping
                 </Button>
               </CardContent>

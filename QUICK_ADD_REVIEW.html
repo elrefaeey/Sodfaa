@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إضافة تقييم سريع</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .container { 
+            background: white; 
+            padding: 40px; 
+            border-radius: 20px; 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            max-width: 500px; 
+            width: 100%;
+            text-align: center;
+        }
+        h1 { 
+            color: #333; 
+            margin-bottom: 20px; 
+            font-size: 2rem;
+        }
+        .status { 
+            margin: 20px 0; 
+            padding: 20px; 
+            border-radius: 10px; 
+            font-weight: bold;
+        }
+        .success { background: #d4edda; color: #155724; border: 2px solid #c3e6cb; }
+        .error { background: #f8d7da; color: #721c24; border: 2px solid #f5c6cb; }
+        .info { background: #d1ecf1; color: #0c5460; border: 2px solid #bee5eb; }
+        button {
+            background: linear-gradient(45deg, #FFD700, #FFA500);
+            color: #000;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+        }
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
+        }
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>⭐ إضافة تقييم سريع</h1>
+        
+        <div class="status info">
+            <h3>📝 تقييم تجريبي</h3>
+            <p>سيتم إضافة تقييم واحد للاختبار</p>
+        </div>
+
+        <button onclick="addQuickReview()" id="addBtn">✨ إضافة تقييم تجريبي</button>
+        
+        <div id="status"></div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js';
+        import { getFirestore, collection, addDoc, Timestamp } from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js';
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyD-5Z9l1YEyeBeOrTt39DT588GLoi3CvoA",
+            authDomain: "sodfaa-8f702.firebaseapp.com",
+            projectId: "sodfaa-8f702",
+            storageBucket: "sodfaa-8f702.firebasestorage.app",
+            messagingSenderId: "1078916973743",
+            appId: "1:1078916973743:web:76d08cfc1598399695805a",
+            measurementId: "G-1GCD0M0KM8"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        const quickReview = {
+            customerName: "سارة أحمد",
+            rating: 5,
+            comment: "منتجات رائعة وجودة عالية، أنصح الجميع بالتسوق من هنا",
+            isApproved: true
+        };
+
+        window.addQuickReview = async function() {
+            const status = document.getElementById('status');
+            const addBtn = document.getElementById('addBtn');
+            
+            addBtn.disabled = true;
+            addBtn.textContent = '⏳ جاري الإضافة...';
+            status.innerHTML = '<div class="status info">🔄 جاري إضافة التقييم...</div>';
+
+            try {
+                await addDoc(collection(db, 'reviews'), {
+                    ...quickReview,
+                    date: Timestamp.now()
+                });
+
+                status.innerHTML = `
+                    <div class="status success">
+                        ✅ تم إضافة التقييم بنجاح!<br><br>
+                        🎉 يمكنك الآن رؤية التقييم في الصفحة الرئيسية<br>
+                        🔄 أعد تحميل الموقع لرؤية التقييم
+                    </div>
+                `;
+                addBtn.textContent = '✅ تم بنجاح';
+
+            } catch (error) {
+                status.innerHTML = `
+                    <div class="status error">
+                        ❌ خطأ: ${error.message}<br><br>
+                        🔧 تأكد من تحديث قواعد Firestore أولاً
+                    </div>
+                `;
+                addBtn.textContent = '❌ فشل';
+                addBtn.disabled = false;
+            }
+        };
+
+        // إظهار التعليمات عند التحميل
+        document.addEventListener('DOMContentLoaded', function() {
+            const status = document.getElementById('status');
+            status.innerHTML = `
+                <div class="status info">
+                    <h3>📋 التعليمات:</h3>
+                    <ol style="text-align: right; padding-right: 20px; margin: 10px 0;">
+                        <li>تأكد من تحديث قواعد Firestore أولاً</li>
+                        <li>اضغط "إضافة تقييم تجريبي"</li>
+                        <li>أعد تحميل الموقع لرؤية التقييم</li>
+                    </ol>
+                </div>
+            `;
+        });
+    </script>
+</body>
+</html>
+

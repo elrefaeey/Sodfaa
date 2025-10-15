@@ -318,7 +318,7 @@ export const ProductForm = ({ isOpen, onClose, product, onSave }: ProductFormPro
             <Button type="button" variant="outline" onClick={onClose}>
               Cancel
             </Button>
-            <Button type="submit" className="btn-gold">
+            <Button type="submit" className="btn-gold-real magnetic-hover">
               {product ? 'Update Product' : 'Create Product'}
             </Button>
           </div>

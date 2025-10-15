@@ -128,7 +128,7 @@ export const CategoryManagement: React.FC = () => {
             <Button 
               onClick={handleQuickAdd} 
               disabled={isLoading || !quickName.trim()} 
-              className="h-12 px-6 rounded-full bg-slate-700 hover:bg-slate-800 text-white font-medium shadow-md hover:shadow-lg transition-all duration-200 flex items-center gap-2"
+              className="h-12 px-6 rounded-full btn-gold-real font-medium shadow-md hover:shadow-lg transition-all duration-200 flex items-center gap-2"
             >
               <Plus className="h-4 w-4" />
               <span>إضافة فئة</span>
@@ -160,7 +160,7 @@ export const CategoryManagement: React.FC = () => {
               <p className="text-gray-500 mb-6">ابدأ بإضافة فئة جديدة لتنظيم منتجاتك</p>
               <Button 
                 onClick={() => handleOpenDialog()} 
-                className="bg-slate-700 hover:bg-slate-800 text-white px-6 py-2 rounded-full"
+                className="btn-gold-real px-6 py-2 rounded-full"
               >
                 <Plus className="h-4 w-4 mr-2" />
                 إضافة أول فئة
@@ -176,7 +176,7 @@ export const CategoryManagement: React.FC = () => {
                     <h3 className="font-semibold text-xl truncate text-gray-800 group-hover:text-slate-700 transition-colors">
                       {category.name}
                     </h3>
-                    <div className="flex gap-2 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <div className="flex gap-2 shrink-0 opacity-100 transition-opacity">
                       <Button
                         variant="ghost"
                         size="sm"
@@ -184,7 +184,7 @@ export const CategoryManagement: React.FC = () => {
                         disabled={isLoading}
                         aria-label="تعديل الفئة"
                         title="تعديل"
-                        className="h-8 w-8 p-0 hover:bg-blue-50 text-blue-600 hover:text-blue-700"
+                        className="h-8 w-8 p-0 hover:bg-blue-50 text-blue-600 hover:text-blue-700 btn-gold-real"
                       >
                         <Edit className="h-4 w-4" />
                       </Button>
@@ -194,7 +194,7 @@ export const CategoryManagement: React.FC = () => {
                             variant="ghost"
                             size="sm"
                             disabled={isLoading}
-                            className="h-8 w-8 p-0 text-red-500 hover:text-red-600 hover:bg-red-50"
+                            className="h-8 w-8 p-0 text-red-500 hover:text-red-600 hover:bg-red-50 btn-gold-real"
                             aria-label="حذف الفئة"
                             title="حذف"
                           >
@@ -257,7 +257,7 @@ export const CategoryManagement: React.FC = () => {
               <Button type="button" variant="outline" onClick={handleCloseDialog} className="h-10 rounded-xl">
                 إلغاء
               </Button>
-              <Button type="submit" disabled={isLoading} className="h-10 rounded-xl">
+              <Button type="submit" disabled={isLoading} className="h-10 rounded-xl btn-gold-real magnetic-hover">
                 {isLoading ? 'جارٍ الحفظ...' : editingCategory ? 'تحديث الفئة' : 'إضافة الفئة'}
               </Button>
             </div>

@@ -1,4 +1,4 @@
-# MY Bag - Luxury Bags & Accessories 🛍️
+# Sodfaa||صُدفةة - Luxury Bags & Accessories 🛍️
 
 A modern e-commerce website for luxury bags and accessories, built with React, TypeScript, Tailwind CSS, and Firebase.
 
@@ -43,14 +43,14 @@ npm run dev
 ## 🔥 Firebase Setup
 
 The project is already configured with Firebase:
-- **Project ID**: my-bag-24dde
+- **Project ID**: sodfaa-8f702
 - **Firestore**: Products collection
 - **Authentication**: Email/Password for admin
 
 ### Creating Admin Account
 
 1. Go to [Firebase Console](https://console.firebase.google.com/)
-2. Select project "my-bag-24dde"
+2. Select project "sodfaa-8f702"
 3. Go to Authentication > Users
 4. Add a new user with email and password
 5. Use these credentials to login to admin panel

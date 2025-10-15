@@ -3,6 +3,7 @@ import { Header } from '@/components/Header';
 import { HeroSection } from '@/components/HeroSection';
 import { BannerTextSection } from '@/components/BannerTextSection';
 import { BestSellerSection } from '@/components/BestSellerSection';
+import { ReviewsSection } from '@/components/ReviewsSection';
 import { Footer } from '@/components/Footer';
 import { CartSidebar } from '@/components/CartSidebar';
 import { FloatingSocialIcons } from '@/components/FloatingSocialIcons';
@@ -90,6 +91,8 @@ const Index = () => {
         <BannerTextSection />
 
         <BestSellerSection onNavigateToCart={() => setCurrentPage('checkout')} onNavigateToProducts={() => setCurrentPage('products')} />
+        
+        <ReviewsSection />
       </main>
 
       <Footer

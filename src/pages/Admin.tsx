@@ -3,9 +3,8 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
-import { LogOut, Package, ShoppingCart, DollarSign, Users, Eye, Edit, Trash2, Plus, ArrowLeft, Percent, CheckCircle, XCircle } from 'lucide-react';
+import { LogOut, Package, Users, Eye, Edit, Trash2, Plus, ArrowLeft, Percent } from 'lucide-react';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
-import { mockOrders, getAdminStats } from '@/data/orders';
 import { categories, Product } from '@/data/products';
 import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/contexts/AuthContext';
@@ -13,13 +12,10 @@ import { ProductForm } from '@/components/admin/ProductForm';
 import { EnhancedProductForm } from '@/components/admin/EnhancedProductForm';
 import { DiscountCodeForm } from '@/components/admin/DiscountCodeForm';
 import { OfferForm, Offer } from '@/components/admin/OfferForm';
-import { OrdersManagement } from '@/components/admin/OrdersManagement';
 import { CategoryManagement } from '@/components/admin/CategoryManagement';
-import { HeroImageManagement } from '@/components/admin/HeroImageManagement';
 import { BannerTextManagement } from '@/components/admin/BannerTextManagement';
+import { ReviewManagement } from '@/components/admin/ReviewManagement';
 import { ProtectedRoute } from '@/components/ProtectedRoute';
-import { useOrderNotifications } from '@/hooks/useOrderNotifications';
-import { subscribeToOrders, Order } from '@/services/orderService';
 import {
   getAllProducts,
   addProduct,
@@ -40,7 +36,7 @@ import {
 } from '@/services/discountService';
 import { useOffers } from '@/hooks/useOffers';
 import { useDiscountCodes } from '@/hooks/useDiscountCodes';
-import { seedFirestore } from '@/scripts/seedFirestore';
+// import { useReviewStats } from '@/hooks/useReviews';
 
 interface AdminProps {
   onBackToHome: () => void;
@@ -58,14 +54,14 @@ const AdminDashboard = ({ onBackToHome }: AdminProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
   const { signOut, user } = useAuth();
-  const [activeTab, setActiveTab] = useState<string>(new URLSearchParams(window.location.search).get('tab') || 'dashboard');
+  const initialTab = (() => {
+    const param = new URLSearchParams(window.location.search).get('tab') || 'products';
+    return param === 'dashboard' ? 'products' : param;
+  })();
+  const [activeTab, setActiveTab] = useState<string>(initialTab);
   const [handledCodeDeepLink, setHandledCodeDeepLink] = useState(false);
-  const [orders, setOrders] = useState<Order[]>([]);
   
-  // Enable order notifications
-  useOrderNotifications();
 
-  const stats = getAdminStats();
 
   // Load products on component mount
   useEffect(() => {
@@ -92,13 +88,6 @@ const AdminDashboard = ({ onBackToHome }: AdminProps) => {
     return () => unsubscribe();
   }, [toast]);
 
-  // Load orders for dashboard stats
-  useEffect(() => {
-    const unsubscribe = subscribeToOrders((ordersData) => {
-      setOrders(ordersData);
-    });
-    return () => unsubscribe();
-  }, []);
 
   const handleSaveProduct = async (productData: Omit<Product, 'id'> & { id?: string }) => {
     setIsLoading(true);
@@ -233,24 +222,6 @@ const AdminDashboard = ({ onBackToHome }: AdminProps) => {
     }
   };
 
-  const handleSeedData = async () => {
-    setIsLoading(true);
-    try {
-      await seedFirestore();
-      toast({
-        title: "تم تحميل البيانات",
-        description: "تم تحميل البيانات الأولية بنجاح",
-      });
-    } catch (error) {
-      toast({
-        title: "خطأ في تحميل البيانات",
-        description: "فشل في تحميل البيانات الأولية",
-        variant: "destructive"
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   // Deep-link: open discounts tab and preselect code
   useEffect(() => {
@@ -276,7 +247,7 @@ const AdminDashboard = ({ onBackToHome }: AdminProps) => {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 sm:h-20">
             <div className="flex items-center gap-2 sm:gap-4">
-              <h1 className="text-lg sm:text-2xl font-bold text-black">MY BAG Admin</h1>
+              <h1 className="text-lg sm:text-2xl font-bold text-black">Sodfaa||صُدفةة Admin</h1>
             </div>
             <div className="flex items-center gap-2 sm:gap-4">
               <div className="hidden sm:block text-sm text-muted-foreground">
@@ -312,11 +283,7 @@ const AdminDashboard = ({ onBackToHome }: AdminProps) => {
             params.set('tab', val);
             window.history.replaceState({}, '', `${window.location.pathname}?${params.toString()}`);
           }} className="space-y-4 sm:space-y-8">
-          <TabsList className="grid w-full grid-cols-4 sm:grid-cols-8 gap-1 sm:gap-0 h-auto sm:h-10 p-1">
-            <TabsTrigger value="dashboard" className="text-xs sm:text-sm py-2 sm:py-1.5">
-              <span className="hidden sm:inline">لوحة التحكم</span>
-              <span className="sm:hidden">الرئيسية</span>
-            </TabsTrigger>
+          <TabsList className="grid w-full grid-cols-3 sm:grid-cols-6 gap-1 sm:gap-0 h-auto sm:h-10 p-1">
             <TabsTrigger value="products" className="text-xs sm:text-sm py-2 sm:py-1.5">المنتجات</TabsTrigger>
             <TabsTrigger value="categories" className="text-xs sm:text-sm py-2 sm:py-1.5">الفئات</TabsTrigger>
             <TabsTrigger value="offers" className="text-xs sm:text-sm py-2 sm:py-1.5">العروض</TabsTrigger>
@@ -324,10 +291,9 @@ const AdminDashboard = ({ onBackToHome }: AdminProps) => {
               <span className="hidden sm:inline">أكواد الخصم</span>
               <span className="sm:hidden">الخصم</span>
             </TabsTrigger>
-            <TabsTrigger value="orders" className="text-xs sm:text-sm py-2 sm:py-1.5">الطلبات</TabsTrigger>
-            <TabsTrigger value="hero-images" className="text-xs sm:text-sm py-2 sm:py-1.5">
-              <span className="hidden sm:inline">صور الغلاف</span>
-              <span className="sm:hidden">الغلاف</span>
+            <TabsTrigger value="reviews" className="text-xs sm:text-sm py-2 sm:py-1.5">
+              <span className="hidden sm:inline">التقييمات</span>
+              <span className="sm:hidden">التقييمات</span>
             </TabsTrigger>
             <TabsTrigger value="banner-text" className="text-xs sm:text-sm py-2 sm:py-1.5">
               <span className="hidden sm:inline">الجملة</span>
@@ -335,161 +301,10 @@ const AdminDashboard = ({ onBackToHome }: AdminProps) => {
             </TabsTrigger>
           </TabsList>
 
-          {/* Dashboard Tab */}
-          <TabsContent value="dashboard" className="space-y-4 sm:space-y-8">
-            <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
-              <Card className="shadow-soft">
-                <CardContent className="p-3 sm:p-6">
-                  <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4">
-                    <div className="w-8 h-8 sm:w-12 sm:h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                      <Package className="h-4 w-4 sm:h-6 sm:w-6 text-blue-600" />
-                    </div>
-                    <div className="text-center sm:text-left">
-                      <p className="text-xs sm:text-sm text-muted-foreground">إجمالي المنتجات</p>
-                      <p className="text-lg sm:text-2xl font-bold">{products.length}</p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
 
-              <Card className="shadow-soft">
-                <CardContent className="p-6">
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
-                      <ShoppingCart className="h-6 w-6 text-purple-600" />
-                    </div>
-                    <div>
-                      <p className="text-sm text-muted-foreground">إجمالي الطلبات</p>
-                      <p className="text-2xl font-bold">{stats.totalOrders}</p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card className="shadow-soft">
-                <CardContent className="p-6">
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-gold/20 rounded-lg flex items-center justify-center">
-                      <DollarSign className="h-6 w-6 text-gold" />
-                    </div>
-                    <div>
-                      <p className="text-sm text-muted-foreground">إجمالي المبيعات</p>
-                      <p className="text-2xl font-bold">${stats.totalSales}</p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-
-            {/* Orders Overview */}
-            <div className="grid md:grid-cols-4 gap-6">
-              <Card className="shadow-soft">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Package className="h-5 w-5 text-blue-600" />
-                    إجمالي الطلبات
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-3xl font-bold text-blue-600">{orders.length}</p>
-                </CardContent>
-              </Card>
-
-              <Card className="shadow-soft">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <CheckCircle className="h-5 w-5 text-green-600" />
-                    طلبات مؤكدة
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-3xl font-bold text-green-600">
-                    {orders.filter(order => order.isConfirmed).length}
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card className="shadow-soft">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <XCircle className="h-5 w-5 text-orange-600" />
-                    طلبات معلقة
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-3xl font-bold text-orange-600">
-                    {orders.filter(order => !order.isConfirmed).length}
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card className="shadow-soft">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <DollarSign className="h-5 w-5 text-green-600" />
-                    إجمالي الإيرادات
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-3xl font-bold text-green-600">
-                    {orders.filter(order => order.isConfirmed)
-                      .reduce((sum, order) => sum + order.total, 0)
-                      .toFixed(2)} جنيه
-                  </p>
-                </CardContent>
-              </Card>
-            </div>
-
-            {/* Recent Orders */}
-            <Card className="shadow-soft">
-              <CardHeader>
-                <CardTitle className="flex items-center justify-between">
-                  <span>أحدث الطلبات</span>
-                  <Button 
-                    variant="outline" 
-                    size="sm"
-                    onClick={() => setActiveTab('orders')}
-                  >
-                    عرض الكل
-                  </Button>
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                {orders.length === 0 ? (
-                  <div className="text-center py-8">
-                    <Package className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
-                    <p className="text-muted-foreground">لا توجد طلبات بعد</p>
-                  </div>
-                ) : (
-                  <div className="space-y-4">
-                    {orders.slice(0, 5).map((order) => (
-                      <div key={order.id} className="flex items-center justify-between p-4 border rounded-lg">
-                        <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-                            <Package className="h-5 w-5 text-blue-600" />
-                          </div>
-                          <div>
-                            <p className="font-medium">طلب #{order.id}</p>
-                            <p className="text-sm text-muted-foreground">{order.customerName}</p>
-                          </div>
-                        </div>
-                        <div className="text-right">
-                          <p className="font-medium">{order.total.toFixed(2)} جنيه</p>
-                          <Badge variant={order.isConfirmed ? 'default' : 'secondary'} className="text-xs">
-                            {order.isConfirmed ? 'مؤكد' : 'معلق'}
-                          </Badge>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          {/* Hero Images Tab */}
-          <TabsContent value="hero-images" className="space-y-6">
-            <HeroImageManagement />
+          {/* Reviews Tab */}
+          <TabsContent value="reviews" className="space-y-6">
+            <ReviewManagement />
           </TabsContent>
 
           {/* Banner Text Tab */}
@@ -502,17 +317,8 @@ const AdminDashboard = ({ onBackToHome }: AdminProps) => {
             <div className="flex justify-between items-center">
               <h2 className="text-2xl font-bold">إدارة المنتجات</h2>
               <div className="flex gap-2">
-                {products.length === 0 && (
-                  <Button
-                    variant="outline"
-                    onClick={handleSeedData}
-                    disabled={isLoading}
-                  >
-                    تحميل البيانات الأولية
-                  </Button>
-                )}
                 <Button
-                  className="rounded-full bg-black text-white hover:bg-black/90 px-4 py-2 shadow-sm"
+                  className="rounded-full btn-gold-real px-4 py-2 shadow-sm magnetic-hover"
                   onClick={() => setShowProductForm(true)}
                 >
                   <Plus className="h-4 w-4 mr-2" />
@@ -661,7 +467,7 @@ const AdminDashboard = ({ onBackToHome }: AdminProps) => {
           <TabsContent value="offers" className="space-y-6">
             <div className="flex justify-between items-center">
               <h2 className="text-2xl font-bold">إدارة العروض</h2>
-              <Button className="rounded-full bg-black text-white hover:bg-black/90 px-4 py-2 shadow-sm" onClick={() => setShowOfferForm(true)}>
+              <Button className="rounded-full bg-gold-classic hover:bg-soft-gold text-black px-4 py-2 shadow-sm magnetic-hover" onClick={() => setShowOfferForm(true)}>
                 <Plus className="h-4 w-4 mr-2" />
                 إضافة عرض
               </Button>
@@ -715,7 +521,7 @@ const AdminDashboard = ({ onBackToHome }: AdminProps) => {
                 </div>
                 <div className="text-center">
                   <Button 
-                    className="rounded-full bg-black text-white hover:bg-black/90 px-4 py-2 shadow-sm"
+                    className="rounded-full btn-gold-real px-4 py-2 shadow-sm magnetic-hover"
                     onClick={() => setShowOfferForm(true)}
                   >
                     <Plus className="h-4 w-4 mr-2" />
@@ -731,7 +537,7 @@ const AdminDashboard = ({ onBackToHome }: AdminProps) => {
             <div className="flex justify-between items-center">
               <h2 className="text-2xl font-bold">إدارة أكواد الخصم</h2>
               <Button
-                className="rounded-full bg-black text-white hover:bg-black/90 px-4 py-2 shadow-sm"
+                className="rounded-full btn-gold-real px-4 py-2 shadow-sm magnetic-hover"
                 onClick={() => setShowDiscountCodeForm(true)}
               >
                 <Plus className="h-4 w-4 mr-2" />
@@ -748,7 +554,7 @@ const AdminDashboard = ({ onBackToHome }: AdminProps) => {
                     أنشئ أول كود خصم لتقديم عروض خاصة للعملاء.
                   </p>
                   <Button
-                    className="rounded-full bg-black text-white hover:bg-black/90 px-4 py-2 shadow-sm"
+                    className="rounded-full btn-gold-real px-4 py-2 shadow-sm magnetic-hover"
                     onClick={() => setShowDiscountCodeForm(true)}
                   >
                     أنشئ أول كود خصم
@@ -812,15 +618,6 @@ const AdminDashboard = ({ onBackToHome }: AdminProps) => {
               </Card>
             )}
           </TabsContent>
-
-          {/* Orders Tab */}
-          <TabsContent value="orders" className="space-y-6">
-            <div className="flex justify-between items-center">
-              <h2 className="text-2xl font-bold">إدارة الطلبات</h2>
-            </div>
-            <OrdersManagement />
-          </TabsContent>
-
 
         </Tabs>
       </div>

@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حل عاجل لمشكلة Firebase</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .container { 
+            background: white; 
+            padding: 40px; 
+            border-radius: 20px; 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            max-width: 800px; 
+            width: 100%;
+            text-align: center;
+        }
+        h1 { 
+            color: #333; 
+            margin-bottom: 20px; 
+            font-size: 2rem;
+        }
+        .status { 
+            margin: 20px 0; 
+            padding: 20px; 
+            border-radius: 10px; 
+            font-weight: bold;
+        }
+        .success { background: #d4edda; color: #155724; border: 2px solid #c3e6cb; }
+        .error { background: #f8d7da; color: #721c24; border: 2px solid #f5c6cb; }
+        .info { background: #d1ecf1; color: #0c5460; border: 2px solid #bee5eb; }
+        .warning { background: #fff3cd; color: #856404; border: 2px solid #ffeaa7; }
+        button {
+            background: linear-gradient(45deg, #FFD700, #FFA500);
+            color: #000;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+        }
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
+        }
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        .steps {
+            text-align: right;
+            margin: 20px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-right: 5px solid #FFD700;
+        }
+        .steps h3 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+        .steps ol {
+            padding-right: 20px;
+        }
+        .steps li {
+            margin: 10px 0;
+            line-height: 1.6;
+        }
+        .code {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            margin: 10px 0;
+            text-align: left;
+            overflow-x: auto;
+        }
+        .solution {
+            background: #e8f5e8;
+            border: 2px solid #4caf50;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .browser-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .browser-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            border: 2px solid #e9ecef;
+            transition: all 0.3s ease;
+        }
+        .browser-item:hover {
+            border-color: #FFD700;
+            transform: translateY(-2px);
+        }
+        .urgent {
+            background: #ffebee;
+            border: 2px solid #f44336;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚨 حل عاجل لمشكلة Firebase</h1>
+        
+        <div class="urgent">
+            <h2>⚠️ مشكلة عاجلة: ERR_BLOCKED_BY_CLIENT</h2>
+            <p>هذا يعني أن المتصفح أو إضافة حجب الإعلانات تمنع الاتصال بـ Firebase</p>
+        </div>
+
+        <div class="steps">
+            <h3>🔧 الحلول السريعة (30 ثانية):</h3>
+            <ol>
+                <li><strong>إيقاف إضافة حجب الإعلانات:</strong> AdBlock, uBlock Origin, etc.</li>
+                <li><strong>إضافة Firebase للقائمة البيضاء:</strong> firestore.googleapis.com</li>
+                <li><strong>استخدام متصفح آخر:</strong> Chrome, Firefox, Edge</li>
+                <li><strong>وضع التصفح الخفي:</strong> Incognito/Private mode</li>
+            </ol>
+        </div>
+
+        <div class="browser-list">
+            <div class="browser-item">
+                <h4>🌐 Chrome</h4>
+                <p>Ctrl + Shift + N (Incognito)</p>
+            </div>
+            <div class="browser-item">
+                <h4>🦊 Firefox</h4>
+                <p>Ctrl + Shift + P (Private)</p>
+            </div>
+            <div class="browser-item">
+                <h4>🌍 Edge</h4>
+                <p>Ctrl + Shift + N (InPrivate)</p>
+            </div>
+            <div class="browser-item">
+                <h4>🔒 Safari</h4>
+                <p>Cmd + Shift + N (Private)</p>
+            </div>
+        </div>
+
+        <button onclick="tryConnection()" id="tryBtn">🔄 اختبار الاتصال</button>
+        <button onclick="openFirebase()" id="firebaseBtn">🔥 فتح Firebase Console</button>
+        <button onclick="showRules()" id="rulesBtn">📋 إظهار القواعد</button>
+        <button onclick="addData()" id="addBtn">✨ إضافة البيانات</button>
+        
+        <div id="status"></div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js';
+        import { getFirestore, collection, addDoc, doc, setDoc, getDocs } from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js';
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyD-5Z9l1YEyeBeOrTt39DT588GLoi3CvoA",
+            authDomain: "sodfaa-8f702.firebaseapp.com",
+            projectId: "sodfaa-8f702",
+            storageBucket: "sodfaa-8f702.firebasestorage.app",
+            messagingSenderId: "1078916973743",
+            appId: "1:1078916973743:web:76d08cfc1598399695805a",
+            measurementId: "G-1GCD0M0KM8"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        window.tryConnection = async function() {
+            const status = document.getElementById('status');
+            const tryBtn = document.getElementById('tryBtn');
+            
+            tryBtn.disabled = true;
+            tryBtn.textContent = '⏳ جاري الاختبار...';
+            status.innerHTML = '<div class="status info">🔄 جاري اختبار الاتصال بـ Firebase...</div>';
+
+            try {
+                const testRef = collection(db, 'test');
+                await getDocs(testRef);
+                
+                status.innerHTML = '<div class="status success">✅ الاتصال يعمل بشكل صحيح!<br>🎉 يمكنك الآن استخدام الموقع</div>';
+                tryBtn.textContent = '✅ يعمل';
+                
+            } catch (error) {
+                if (error.message.includes('ERR_BLOCKED_BY_CLIENT') || error.message.includes('blocked')) {
+                    status.innerHTML = `
+                        <div class="status error">
+                            ❌ المشكلة: ERR_BLOCKED_BY_CLIENT<br><br>
+                            <strong>الحلول:</strong><br>
+                            1. إيقاف إضافة حجب الإعلانات<br>
+                            2. إضافة firestore.googleapis.com للقائمة البيضاء<br>
+                            3. استخدام متصفح آخر<br>
+                            4. وضع التصفح الخفي<br><br>
+                            <strong>أو جرب الحل البديل أدناه</strong>
+                        </div>
+                    `;
+                } else {
+                    status.innerHTML = `<div class="status error">❌ خطأ آخر: ${error.message}</div>`;
+                }
+                tryBtn.textContent = '❌ فشل - جرب الحلول';
+                tryBtn.disabled = false;
+            }
+        };
+
+        window.addData = async function() {
+            const status = document.getElementById('status');
+            const addBtn = document.getElementById('addBtn');
+            
+            addBtn.disabled = true;
+            addBtn.textContent = '⏳ جاري الإضافة...';
+            status.innerHTML = '<div class="status info">🔄 جاري إضافة البيانات...</div>';
+
+            try {
+                // إضافة فئة افتراضية
+                await setDoc(doc(db, 'categories', 'default-category'), {
+                    id: 'default-category',
+                    name: 'فئة افتراضية',
+                    description: 'فئة افتراضية يمكن تعديلها أو حذفها',
+                    image: '/api/placeholder/300/200'
+                });
+
+                // إضافة منتج افتراضي
+                await setDoc(doc(db, 'products', 'default-product'), {
+                    id: 'default-product',
+                    name: 'منتج افتراضي',
+                    description: 'منتج افتراضي يمكن تعديله أو حذفه',
+                    price: 100,
+                    category: 'default-category',
+                    images: ['/api/placeholder/400/400'],
+                    colors: [{ name: 'افتراضي', image: '/api/placeholder/400/400' }],
+                    inStock: true
+                });
+
+                // إضافة نص البانر
+                await setDoc(doc(db, 'bannerText', 'main'), {
+                    id: 'main',
+                    text: 'Find everything you need and more — only at Sodfaa Store',
+                    isActive: true
+                });
+
+                status.innerHTML = '<div class="status success">✅ تم إضافة البيانات بنجاح!<br>🔄 أعد تحميل الموقع الآن</div>';
+                addBtn.textContent = '✅ تم بنجاح';
+                
+                setTimeout(() => {
+                    window.location.reload();
+                }, 3000);
+
+            } catch (error) {
+                status.innerHTML = `<div class="status error">❌ خطأ: ${error.message}<br><br>🔧 يجب تحديث قواعد Firestore أولاً</div>`;
+                addBtn.textContent = '❌ فشل - جرب الحل البديل';
+                addBtn.disabled = false;
+            }
+        };
+
+        window.openFirebase = function() {
+            window.open('https://console.firebase.google.com/project/sodfaa-8f702/firestore/rules', '_blank');
+        };
+
+        window.showRules = function() {
+            const status = document.getElementById('status');
+            status.innerHTML = `
+                <div class="status info">
+                    <h3>📋 قواعد Firestore المطلوبة:</h3>
+                    <div class="code">
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write: if true;
+    }
+  }
+}
+                    </div>
+                    <p><strong>الخطوات:</strong></p>
+                    <ol style="text-align: right; padding-right: 20px;">
+                        <li>اذهب إلى Firebase Console</li>
+                        <li>Firestore Database > Rules</li>
+                        <li>امسح كل شيء وانسخ القواعد أعلاه</li>
+                        <li>اضغط "Publish"</li>
+                    </ol>
+                </div>
+            `;
+        };
+
+        // إظهار التعليمات عند التحميل
+        document.addEventListener('DOMContentLoaded', function() {
+            const status = document.getElementById('status');
+            status.innerHTML = `
+                <div class="status warning">
+                    <h3>⚠️ مشكلة ERR_BLOCKED_BY_CLIENT</h3>
+                    <p>هذا الخطأ يعني أن المتصفح أو إضافة حجب الإعلانات تمنع الاتصال بـ Firebase</p>
+                    <br>
+                    <p><strong>الحلول السريعة:</strong></p>
+                    <ul style="text-align: right; padding-right: 20px;">
+                        <li>إيقاف إضافة حجب الإعلانات (AdBlock, uBlock Origin)</li>
+                        <li>إضافة firestore.googleapis.com للقائمة البيضاء</li>
+                        <li>استخدام متصفح آخر أو وضع التصفح الخفي</li>
+                    </ul>
+                </div>
+            `;
+        });
+    </script>
+</body>
+</html>
+
+

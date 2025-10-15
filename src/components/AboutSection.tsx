@@ -26,15 +26,15 @@ export const AboutSection = () => {
   ];
 
   return (
-    <section id="about" className="py-20 bg-white">
+    <section id="about" className="py-20 arabic-bg">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           {/* Content */}
           <div>
-            <h2 className="text-4xl font-bold mb-6">About MY Bag</h2>
+            <h2 className="text-4xl font-bold mb-6 font-arabic-elegant">About Sodfaa||صُدفةة</h2>
             <div className="space-y-6 text-lg text-muted-foreground">
               <p>
-                For over a decade, MY Bag has been at the forefront of luxury accessories, 
+                For over a decade, Sodfaa||صُدفةة has been at the forefront of luxury accessories, 
                 creating timeless pieces that blend sophistication with functionality. Our 
                 commitment to exceptional craftsmanship and premium materials ensures that 
                 every bag tells a story of elegance and durability.
@@ -48,24 +48,24 @@ export const AboutSection = () => {
               <p>
                 Each piece in our collection is meticulously crafted by skilled artisans 
                 who share our passion for excellence. We source only the finest leathers 
-                and hardware, ensuring that your MY Bag investment will last for years to come.
+                and hardware, ensuring that your Sodfaa||صُدفةة investment will last for years to come.
               </p>
             </div>
-            <Button className="btn-gold mt-8">
+            <Button className="btn-gold-real mt-8 magnetic-hover">
               Learn More About Our Story
             </Button>
           </div>
 
           {/* Image */}
-          <div className="relative">
+          <div className="relative slide-in-right">
             <div className="aspect-square bg-secondary rounded-2xl overflow-hidden">
               <img
                 src="/api/placeholder/600/600"
-                alt="MY Bag craftsmanship"
+                alt="Sodfaa||صُدفةة craftsmanship"
                 className="w-full h-full object-cover"
               />
             </div>
-            <div className="absolute -bottom-6 -left-6 bg-gold text-black p-6 rounded-xl animate-float">
+            <div className="absolute -bottom-6 -left-6 bg-gold-classic text-black p-6 rounded-xl floating-animation">
               <div className="text-2xl font-bold">10+</div>
               <div className="text-sm font-medium">Years of Excellence</div>
             </div>

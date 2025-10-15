@@ -75,7 +75,7 @@ export const ContactSection = () => {
     {
       name: "Instagram",
       icon: InstagramIcon,
-      link: "https://instagram.com/mybag",
+      link: "https://www.instagram.com/sodfaa__store/",
       color: "hover:text-pink-600"
     }
   ];

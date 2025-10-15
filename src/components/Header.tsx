@@ -50,10 +50,10 @@ export const Header = ({ onCartClick, cartItemsCount, onBackToHome, onNavigateTo
           <div className="flex-shrink-0">
             <button
               onClick={() => (onBackToHome ? onBackToHome() : (window.location.href = '/'))}
-              className="text-2xl font-bold text-black hover:text-clean-accent transition-colors"
+              className="text-2xl font-bold text-black hover:text-clean-accent transition-all duration-300 font-arabic-elegant magnetic-hover"
               aria-label="العودة للصفحة الرئيسية"
             >
-              MY BAG
+              Sodfaa||صُدفةة
             </button>
           </div>
 
@@ -62,7 +62,7 @@ export const Header = ({ onCartClick, cartItemsCount, onBackToHome, onNavigateTo
             <Button
               variant="default"
               size="sm"
-              className="relative p-2 rounded-md bg-[#374957] hover:bg-[#374957]"
+              className="relative p-2 rounded-md btn-gold-real magnetic-hover"
               onClick={onCartClick}
             >
               <ShoppingCart className="h-6 w-6 text-white" />
@@ -82,11 +82,11 @@ export const Header = ({ onCartClick, cartItemsCount, onBackToHome, onNavigateTo
             <Button
               variant="ghost"
               size="icon"
-              className="p-2"
+              className="p-2 btn-gold-real"
               onClick={() => setIsMobileMenuOpen((v) => !v)}
               aria-label="Open menu"
             >
-              <Menu className="h-5 w-5" />
+              <Menu className="h-5 w-5 text-white" />
             </Button>
           </div>
 
@@ -94,10 +94,10 @@ export const Header = ({ onCartClick, cartItemsCount, onBackToHome, onNavigateTo
           <div className="flex items-center justify-center">
             <button
               onClick={() => (onBackToHome ? onBackToHome() : (window.location.href = '/'))}
-              className="text-xl font-bold text-black hover:text-clean-accent transition-colors"
+              className="text-xl font-bold text-black hover:text-clean-accent transition-all duration-300 font-arabic-elegant magnetic-hover"
               aria-label="العودة للصفحة الرئيسية"
             >
-              MY BAG
+              Sodfaa||صُدفةة
             </button>
           </div>
 
@@ -106,7 +106,7 @@ export const Header = ({ onCartClick, cartItemsCount, onBackToHome, onNavigateTo
             <Button
               variant="default"
               size="icon"
-              className="relative p-2 rounded-full bg-[#374957] hover:bg-[#374957] border border-transparent"
+              className="relative p-2 rounded-full btn-gold-real magnetic-hover"
               onClick={onCartClick}
               aria-label="Open cart"
             >

@@ -122,8 +122,16 @@ export const getDiscountCodeByCode = async (code: string): Promise<DiscountCode 
     const discountCode = convertFromFirestore(doc);
 
     return discountCode;
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error getting discount code by code:', error);
+    // Fallback if composite index not yet built: filter client-side
+    if ((error?.message ?? '').includes('The query requires an index')) {
+      const fallback = await getDocs(collection(db, COLLECTION_NAME));
+      const match = fallback.docs
+        .map(convertFromFirestore)
+        .find(dc => dc.code.toUpperCase() === code.toUpperCase() && dc.isActive);
+      return match ?? null;
+    }
     throw error;
   }
 };

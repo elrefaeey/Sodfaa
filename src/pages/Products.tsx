@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Header } from '@/components/Header';
 import { ProductsSection } from '@/components/ProductsSection';
+import { ProductsOffersSection } from '@/components/ProductsOffersSection';
 import { useCart } from '@/hooks/useCart';
 import { useActiveOffers } from '@/hooks/useOffers';
 import { Offer } from '@/components/admin/OfferForm';
@@ -47,6 +48,7 @@ export const Products = ({ onBackToHome, onNavigateToCart }: ProductsProps) => {
       />
 
       <main className="pt-16">
+        <ProductsOffersSection />
         <ProductsSection offers={offers} onOfferExpired={handleOfferExpired} onNavigateToCart={onNavigateToCart} />
       </main>
     </div>

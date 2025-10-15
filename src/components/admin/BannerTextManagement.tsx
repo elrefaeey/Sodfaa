@@ -167,7 +167,7 @@ export const BannerTextManagement = () => {
             <Button
               type="submit"
               disabled={isSubmitting || !formData.text}
-              className="w-full bg-black text-white hover:bg-black/90"
+              className="w-full btn-gold-real magnetic-hover"
               size="lg"
             >
               {isSubmitting

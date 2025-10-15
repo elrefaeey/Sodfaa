@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>إصلاح Firebase</title>
+    <style>
+        body { font-family: Arial; padding: 20px; background: #f0f0f0; }
+        .container { background: white; padding: 30px; border-radius: 10px; max-width: 600px; margin: 0 auto; }
+        button { background: #FFD700; color: black; border: none; padding: 15px 30px; border-radius: 5px; font-size: 16px; cursor: pointer; margin: 10px; }
+        button:hover { background: #FFA000; }
+        .status { margin: 20px 0; padding: 15px; border-radius: 5px; }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>إصلاح مشكلة Firebase</h1>
+        <p>اضغط على الزر أدناه لإضافة البيانات المطلوبة:</p>
+        
+        <button onclick="addData()">إضافة البيانات</button>
+        <button onclick="checkRules()">فحص القواعد</button>
+        
+        <div id="status"></div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js';
+        import { getFirestore, collection, addDoc, doc, setDoc, getDocs } from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js';
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyD-5Z9l1YEyeBeOrTt39DT588GLoi3CvoA",
+            authDomain: "sodfaa-8f702.firebaseapp.com",
+            projectId: "sodfaa-8f702",
+            storageBucket: "sodfaa-8f702.firebasestorage.app",
+            messagingSenderId: "1078916973743",
+            appId: "1:1078916973743:web:76d08cfc1598399695805a",
+            measurementId: "G-1GCD0M0KM8"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        window.addData = async function() {
+            const status = document.getElementById('status');
+            status.innerHTML = '<div class="status">جاري الإضافة...</div>';
+
+            try {
+                // إضافة فئة
+                await setDoc(doc(db, 'categories', 'default-category'), {
+                    id: 'default-category',
+                    name: 'فئة افتراضية',
+                    description: 'فئة افتراضية',
+                    image: '/api/placeholder/300/200'
+                });
+
+                // إضافة منتج
+                await setDoc(doc(db, 'products', 'default-product'), {
+                    id: 'default-product',
+                    name: 'منتج افتراضي',
+                    description: 'منتج افتراضي',
+                    price: 100,
+                    category: 'default-category',
+                    images: ['/api/placeholder/400/400'],
+                    colors: [{ name: 'افتراضي', image: '/api/placeholder/400/400' }],
+                    inStock: true
+                });
+
+                // إضافة نص البانر
+                await setDoc(doc(db, 'bannerText', 'main'), {
+                    id: 'main',
+                    text: 'Find everything you need and more — only at Sodfaa Store',
+                    isActive: true
+                });
+
+                status.innerHTML = '<div class="status success">✅ تم إضافة البيانات بنجاح!</div>';
+            } catch (error) {
+                status.innerHTML = `<div class="status error">❌ خطأ: ${error.message}</div>`;
+            }
+        };
+
+        window.checkRules = async function() {
+            const status = document.getElementById('status');
+            status.innerHTML = '<div class="status">جاري فحص القواعد...</div>';
+
+            try {
+                const categories = await getDocs(collection(db, 'categories'));
+                status.innerHTML = '<div class="status success">✅ القواعد تعمل بشكل صحيح!</div>';
+            } catch (error) {
+                status.innerHTML = `<div class="status error">❌ مشكلة في القواعد: ${error.message}<br><br>اذهب إلى Firebase Console > Firestore > Rules واكتب:<br><br><code>rules_version = \'2\';<br>service cloud.firestore {<br>  match /databases/{database}/documents {<br>    match /{document=**} {<br>      allow read, write: if true;<br>    }<br>  }<br>}</code></div>`;
+            }
+        };
+    </script>
+</body>
+</html>
+
+

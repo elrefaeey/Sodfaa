@@ -14,7 +14,7 @@ export const WhatsAppSettings: React.FC = () => {
 
   // Load saved WhatsApp number on component mount
   useEffect(() => {
-    const savedNumber = localStorage.getItem('whatsappNumber') || '201068798221';
+    const savedNumber = localStorage.getItem('whatsappNumber') || '201031901879';
     setWhatsappNumber(savedNumber);
   }, []);
 
@@ -131,12 +131,12 @@ export const WhatsAppSettings: React.FC = () => {
                   type="tel"
                   value={whatsappNumber}
                   onChange={(e) => setWhatsappNumber(e.target.value)}
-                  placeholder="201068798221"
+                  placeholder="201031901879"
                   className="text-left"
                   dir="ltr"
                 />
                 <p className="text-xs text-muted-foreground mt-1">
-                  أدخل الرقم بالكود الدولي (مثال: 201068798221)
+                  أدخل الرقم بالكود الدولي (مثال: 201031901879)
                 </p>
               </div>
               <Button

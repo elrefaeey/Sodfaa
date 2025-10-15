@@ -39,7 +39,7 @@ export const AllProductsSection = ({ offers = [], onNavigateToCart }: AllProduct
             <Button
               variant={selectedCategory === 'all' ? 'default' : 'outline'}
               onClick={() => setSelectedCategory('all')}
-              className="mb-2 whitespace-nowrap"
+              className="mb-2 whitespace-nowrap shadow-lg shadow-gold-classic/30 hover:shadow-xl hover:shadow-gold-classic/50"
             >
               All Products
             </Button>
@@ -48,7 +48,7 @@ export const AllProductsSection = ({ offers = [], onNavigateToCart }: AllProduct
                 key={category.id}
                 variant={selectedCategory === category.id ? 'default' : 'outline'}
                 onClick={() => setSelectedCategory(category.id)}
-                className="mb-2 whitespace-nowrap"
+                className="mb-2 whitespace-nowrap shadow-lg shadow-gold-classic/30 hover:shadow-xl hover:shadow-gold-classic/50"
               >
                 {category.name}
               </Button>
@@ -62,7 +62,7 @@ export const AllProductsSection = ({ offers = [], onNavigateToCart }: AllProduct
               <Button
                 variant={selectedCategory === 'all' ? 'default' : 'outline'}
                 onClick={() => setSelectedCategory('all')}
-                className="w-full text-sm py-3 px-4"
+                className="w-full text-sm py-3 px-4 shadow-lg shadow-gold-classic/30 hover:shadow-xl hover:shadow-gold-classic/50"
               >
                 All Products
               </Button>
@@ -75,7 +75,7 @@ export const AllProductsSection = ({ offers = [], onNavigateToCart }: AllProduct
                   key={category.id}
                   variant={selectedCategory === category.id ? 'default' : 'outline'}
                   onClick={() => setSelectedCategory(category.id)}
-                  className={`text-xs py-3 min-h-[48px] flex items-center justify-center ${
+                  className={`text-xs py-3 min-h-[48px] flex items-center justify-center shadow-lg shadow-gold-classic/30 hover:shadow-xl hover:shadow-gold-classic/50 ${
                     categories.length > 4 ? 'px-1' : 'px-2'
                   }`}
                   size="sm"

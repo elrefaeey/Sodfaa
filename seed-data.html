@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إعداد بيانات Sodfaa||صُدفةة</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #1B365D, #D4AF37);
+            color: white;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            max-width: 500px;
+            width: 100%;
+        }
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        .subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+        button {
+            background: linear-gradient(135deg, #D4AF37, #F4D03F);
+            color: #1B365D;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 10px;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+        }
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
+        }
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .status {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            min-height: 50px;
+            text-align: left;
+            font-family: monospace;
+            font-size: 0.9rem;
+            white-space: pre-wrap;
+        }
+        .success {
+            background: rgba(46, 204, 113, 0.2);
+            border: 1px solid rgba(46, 204, 113, 0.5);
+        }
+        .error {
+            background: rgba(231, 76, 60, 0.2);
+            border: 1px solid rgba(231, 76, 60, 0.5);
+        }
+        .info {
+            background: rgba(52, 152, 219, 0.2);
+            border: 1px solid rgba(52, 152, 219, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Sodfaa||صُدفةة</h1>
+        <p class="subtitle">إعداد البيانات الأولية لقاعدة البيانات</p>
+        
+        <button onclick="seedData()" id="seedBtn">
+            🌱 إضافة البيانات الأولية
+        </button>
+        
+        <button onclick="checkConnection()" id="checkBtn">
+            🔍 فحص الاتصال
+        </button>
+        
+        <div id="status" class="status info">
+            جاهز لإعداد البيانات...<br>
+            تأكد من أن الموقع يعمل وأن Firebase متصل
+        </div>
+    </div>
+
+    <script type="module">
+        let statusDiv = document.getElementById('status');
+        let seedBtn = document.getElementById('seedBtn');
+        let checkBtn = document.getElementById('checkBtn');
+
+        function updateStatus(message, type = 'info') {
+            statusDiv.textContent = message;
+            statusDiv.className = `status ${type}`;
+        }
+
+        function setLoading(button, loading = true) {
+            button.disabled = loading;
+            if (loading) {
+                button.textContent = '⏳ جاري التحميل...';
+            } else {
+                button.textContent = button.id === 'seedBtn' ? '🌱 إضافة البيانات الأولية' : '🔍 فحص الاتصال';
+            }
+        }
+
+        window.checkConnection = async function() {
+            setLoading(checkBtn, true);
+            updateStatus('🔍 فحص الاتصال مع Firebase...', 'info');
+            
+            try {
+                // Import Firebase modules
+                const { initializeApp } = await import('https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js');
+                const { getFirestore, collection, getDocs } = await import('https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js');
+                
+                const firebaseConfig = {
+                    apiKey: "AIzaSyD-5Z9l1YEyeBeOrTt39DT588GLoi3CvoA",
+                    authDomain: "sodfaa-8f702.firebaseapp.com",
+                    projectId: "sodfaa-8f702",
+                    storageBucket: "sodfaa-8f702.firebasestorage.app",
+                    messagingSenderId: "1078916973743",
+                    appId: "1:1078916973743:web:76d08cfc1598399695805a",
+                    measurementId: "G-1GCD0M0KM8"
+                };
+                
+                const app = initializeApp(firebaseConfig);
+                const db = getFirestore(app);
+                
+                // Test connection by trying to read from a collection
+                const testRef = collection(db, 'products');
+                await getDocs(testRef);
+                
+                updateStatus('✅ الاتصال مع Firebase يعمل بشكل صحيح!\nيمكنك الآن إضافة البيانات الأولية.', 'success');
+            } catch (error) {
+                updateStatus(`❌ خطأ في الاتصال:\n${error.message}\n\nتأكد من:\n1. أن قواعد Firestore تسمح بالقراءة\n2. أن المشروع نشط في Firebase Console`, 'error');
+            } finally {
+                setLoading(checkBtn, false);
+            }
+        };
+
+        window.seedData = async function() {
+            setLoading(seedBtn, true);
+            updateStatus('🌱 بدء إضافة البيانات الأولية...', 'info');
+            
+            try {
+                // Import Firebase modules
+                const { initializeApp } = await import('https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js');
+                const { getFirestore, collection, addDoc, getDocs } = await import('https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js');
+                
+                const firebaseConfig = {
+                    apiKey: "AIzaSyD-5Z9l1YEyeBeOrTt39DT588GLoi3CvoA",
+                    authDomain: "sodfaa-8f702.firebaseapp.com",
+                    projectId: "sodfaa-8f702",
+                    storageBucket: "sodfaa-8f702.firebasestorage.app",
+                    messagingSenderId: "1078916973743",
+                    appId: "1:1078916973743:web:76d08cfc1598399695805a",
+                    measurementId: "G-1GCD0M0KM8"
+                };
+                
+                const app = initializeApp(firebaseConfig);
+                const db = getFirestore(app);
+                
+                let status = '🌱 بدء إضافة البيانات الأولية...\n\n';
+                
+                // Sample data
+                const sampleData = {
+                    categories: [
+                        { name: 'حقائب يد', nameAr: 'حقائب يد', description: 'حقائب يد أنيقة', isActive: true },
+                        { name: 'حقائب ظهر', nameAr: 'حقائب ظهر', description: 'حقائب ظهر عملية', isActive: true },
+                        { name: 'حقائب صغيرة', nameAr: 'حقائب صغيرة', description: 'حقائب صغيرة وكلاتش', isActive: true }
+                    ],
+                    products: [
+                        {
+                            name: 'حقيبة يد جلدية فاخرة',
+                            nameAr: 'حقيبة يد جلدية فاخرة',
+                            description: 'حقيبة يد مصنوعة من الجلد الطبيعي الفاخر',
+                            price: 1200,
+                            originalPrice: 1500,
+                            category: 'حقائب يد',
+                            images: ['/api/placeholder/400/400'],
+                            isActive: true,
+                            isFeatured: true,
+                            stock: 10
+                        }
+                    ],
+                    offers: [
+                        {
+                            title: 'خصم 20% على جميع الحقائب',
+                            description: 'احصل على خصم 20% على جميع الحقائب الجلدية الفاخرة',
+                            discountPercentage: 20,
+                            isActive: true,
+                            startDate: new Date(),
+                            endDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
+                        }
+                    ]
+                };
+                
+                // Add categories
+                status += '📁 إضافة الفئات...\n';
+                const categoriesRef = collection(db, 'categories');
+                const existingCategories = await getDocs(categoriesRef);
+                
+                if (existingCategories.size === 0) {
+                    for (const category of sampleData.categories) {
+                        await addDoc(categoriesRef, {
+                            ...category,
+                            createdAt: new Date(),
+                            updatedAt: new Date()
+                        });
+                    }
+                    status += `✅ تم إضافة ${sampleData.categories.length} فئة\n`;
+                } else {
+                    status += '⏭️ الفئات موجودة بالفعل\n';
+                }
+                
+                // Add products
+                status += '🛍️ إضافة المنتجات...\n';
+                const productsRef = collection(db, 'products');
+                const existingProducts = await getDocs(productsRef);
+                
+                if (existingProducts.size === 0) {
+                    for (const product of sampleData.products) {
+                        await addDoc(productsRef, {
+                            ...product,
+                            createdAt: new Date(),
+                            updatedAt: new Date()
+                        });
+                    }
+                    status += `✅ تم إضافة ${sampleData.products.length} منتج\n`;
+                } else {
+                    status += '⏭️ المنتجات موجودة بالفعل\n';
+                }
+                
+                // Add offers
+                status += '🎯 إضافة العروض...\n';
+                const offersRef = collection(db, 'offers');
+                const existingOffers = await getDocs(offersRef);
+                
+                if (existingOffers.size === 0) {
+                    for (const offer of sampleData.offers) {
+                        await addDoc(offersRef, {
+                            ...offer,
+                            createdAt: new Date(),
+                            updatedAt: new Date()
+                        });
+                    }
+                    status += `✅ تم إضافة ${sampleData.offers.length} عرض\n`;
+                } else {
+                    status += '⏭️ العروض موجودة بالفعل\n';
+                }
+                
+                status += '\n🎉 تم إعداد البيانات بنجاح!\nيمكنك الآن تحديث الموقع ورؤية البيانات.';
+                updateStatus(status, 'success');
+                
+            } catch (error) {
+                updateStatus(`❌ خطأ في إضافة البيانات:\n${error.message}\n\nتأكد من:\n1. أن قواعد Firestore تسمح بالكتابة\n2. أن الاتصال مع Firebase يعمل`, 'error');
+            } finally {
+                setLoading(seedBtn, false);
+            }
+        };
+    </script>
+</body>
+</html>
+
+

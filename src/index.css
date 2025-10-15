@@ -111,11 +111,11 @@
   }
 }
 
-/* MY Bag E-commerce Design System - Luxury Fashion Theme */
+/* Sodfaa||صُدفةة E-commerce Design System - Arabic Luxury Fashion Theme */
 
 @layer base {
   :root {
-    /* Light & Clean Design - White-based Theme */
+    /* Arabic-Inspired Design - Warm & Elegant Theme */
     --background: 0 0% 100%; /* White (#FFFFFF) */
     --foreground: 0 0% 0%;
 
@@ -125,27 +125,37 @@
     --popover: 0 0% 100%; /* White (#FFFFFF) */
     --popover-foreground: 0 0% 0%;
 
-    /* Primary - Brand color #374957 */
-    --primary: 206 23% 28%; /* #374957 */
+    /* Primary - Deep Arabic Blue #1B365D */
+    --primary: 210 52% 23%; /* #1B365D - Deep Arabic Blue */
     --primary-foreground: 0 0% 100%; /* White */
 
-    /* Secondary - Soft Background (#FAF9EE) */
-    --secondary: 45 33% 96%; /* #FAF9EE */
+    /* Secondary - Warm Cream (#F7F3E9) */
+    --secondary: 45 33% 96%; /* #F7F3E9 - Warm Cream */
     --secondary-foreground: 0 0% 20%;
 
-    /* Muted - Input Background (#EEEEEE) */
-    --muted: 0 0% 93%; /* #EEEEEE */
+    /* Muted - Soft Beige (#F5F1E8) */
+    --muted: 45 25% 95%; /* #F5F1E8 - Soft Beige */
     --muted-foreground: 0 0% 45%;
 
-    /* Accent - Green Accent (#A2AF9B) */
-    --accent: 85 12% 66%; /* #A2AF9B */
+    /* Accent - Arabic Gold #D4AF37 */
+    --accent: 45 74% 55%; /* #D4AF37 - Gold classic */
     --accent-foreground: 0 0% 0%;
 
-    /* Clean Color Palette */
-    --clean-secondary: 45 33% 96%; /* #FAF9EE - Secondary background */
-    --clean-accent: 85 12% 66%; /* #A2AF9B - Accent color */
+    /* Arabic Color Palette */
+    --clean-secondary: 45 25% 95%; /* #F5F1E8 - Warm Beige background */
+    --clean-accent: 45 74% 55%; /* #D4AF37 - Gold classic accent */
     --clean-neutral: 30 14% 82%; /* #DCCFC0 - Neutral borders */
-    --clean-input: 0 0% 93%; /* #EEEEEE - Input backgrounds */
+    --clean-input: 45 20% 92%; /* #F0EDE5 - Warm input backgrounds */
+    
+    /* Arabic Heritage Colors */
+    --arabic-gold: 45 74% 55%; /* #D4AF37 - Gold classic */
+    --arabic-light-gold: 35 65% 70%; /* #E6BE8A - Light gold (ناعم وأنيق) */
+    --arabic-soft-gold: 45 95% 70%; /* #FAD26A - Soft golden yellow */
+    --arabic-wheat-gold: 40 85% 85%; /* #F5DEB3 - Wheat gold */
+    --arabic-bright-gold: 51 100% 50%; /* #FFD700 - Bright gold */
+    --arabic-blue: 210 52% 23%; /* #1B365D - Deep Arabic Blue */
+    --arabic-cream: 45 25% 95%; /* #F5F1E8 - Warm Arabic Cream */
+    --arabic-terracotta: 15 45% 45%; /* #8B4513 - Arabic Terracotta */
 
     /* Special Offers Colors */
     --offer-red: 0 100% 50%; /* #FF0000 - Red for offers */
@@ -160,10 +170,11 @@
     --input: 0 0% 93%; /* #EEEEEE - Input backgrounds */
     --ring: 85 12% 66%; /* #A2AF9B - Focus rings */
 
-    /* Clean Gradients */
-    --gradient-accent: linear-gradient(135deg, hsl(85 12% 66%), hsl(85 12% 76%)); /* #A2AF9B gradient */
+    /* Arabic-Inspired Gradients */
+    --gradient-accent: linear-gradient(135deg, hsl(45 74% 55%), hsl(45 74% 65%)); /* Arabic Gold gradient */
     --gradient-hero: linear-gradient(135deg, hsl(0 0% 0% / 0.7), hsl(0 0% 0% / 0.4));
-    --gradient-card: linear-gradient(145deg, hsl(0 0% 100%), hsl(45 33% 96%)); /* White to #FAF9EE */
+    --gradient-card: linear-gradient(145deg, hsl(0 0% 100%), hsl(45 25% 95%)); /* White to Arabic Cream */
+    --gradient-arabic: linear-gradient(135deg, hsl(210 52% 23%), hsl(45 74% 55%)); /* Arabic Blue to Gold */
 
     /* Soft Shadows for Clean Design */
     --shadow-soft: 0 2px 10px hsl(0 0% 0% / 0.05);
@@ -188,6 +199,317 @@
     --sidebar-accent-foreground: 0 0% 0%;
     --sidebar-border: 30 14% 82%; /* #DCCFC0 */
     --sidebar-ring: 85 12% 66%; /* #A2AF9B */
+  }
+
+  /* Arabic Typography Classes */
+  .font-arabic {
+    font-family: 'Amiri', 'Scheherazade New', 'IBM Plex Sans Arabic', serif;
+  }
+  
+  .font-arabic-elegant {
+    font-family: 'Scheherazade New', 'Amiri', 'IBM Plex Sans Arabic', serif;
+    font-weight: 700;
+  }
+  
+  .font-arabic-classic {
+    font-family: 'Amiri', 'IBM Plex Sans Arabic', serif;
+    font-weight: 400;
+  }
+
+  /* Arabic Decorative Elements */
+  .arabic-pattern {
+    background-image: 
+      radial-gradient(circle at 25% 25%, hsl(var(--arabic-gold)) 2px, transparent 2px),
+      radial-gradient(circle at 75% 75%, hsl(var(--arabic-gold)) 2px, transparent 2px);
+    background-size: 20px 20px;
+    background-position: 0 0, 10px 10px;
+    opacity: 0.1;
+  }
+  
+  .arabic-border {
+    border-image: linear-gradient(45deg, hsl(var(--arabic-gold)), hsl(var(--arabic-blue))) 1;
+  }
+  
+  .arabic-shadow {
+    box-shadow: 
+      0 4px 6px -1px rgba(27, 54, 93, 0.1),
+      0 2px 4px -1px rgba(212, 175, 55, 0.1);
+  }
+
+  /* Arabic Background Patterns */
+  .arabic-bg {
+    background: linear-gradient(135deg, hsl(var(--arabic-cream)) 0%, hsl(var(--background)) 100%);
+  }
+  
+  .arabic-gold-bg {
+    background: linear-gradient(135deg, hsl(var(--arabic-gold)) 0%, hsl(var(--arabic-gold) / 0.8) 100%);
+  }
+  
+  .arabic-light-gold-bg {
+    background: linear-gradient(135deg, hsl(var(--arabic-light-gold)) 0%, hsl(var(--arabic-light-gold) / 0.8) 100%);
+  }
+  
+  .arabic-soft-gold-bg {
+    background: linear-gradient(135deg, hsl(var(--arabic-soft-gold)) 0%, hsl(var(--arabic-soft-gold) / 0.8) 100%);
+  }
+  
+  .arabic-wheat-gold-bg {
+    background: linear-gradient(135deg, hsl(var(--arabic-wheat-gold)) 0%, hsl(var(--arabic-wheat-gold) / 0.8) 100%);
+  }
+  
+  .arabic-bright-gold-bg {
+    background: linear-gradient(135deg, hsl(var(--arabic-bright-gold)) 0%, hsl(var(--arabic-bright-gold) / 0.8) 100%);
+  }
+  
+  .arabic-blue-bg {
+    background: linear-gradient(135deg, hsl(var(--arabic-blue)) 0%, hsl(var(--arabic-blue) / 0.9) 100%);
+  }
+
+  /* Cinematic Effects */
+  .glow-effect {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .glow-effect::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+  }
+  
+  .glow-effect:hover::before {
+    left: 100%;
+  }
+  
+  .cinematic-glow {
+    box-shadow: 
+      0 0 20px rgba(250, 210, 106, 0.3),
+      0 0 40px rgba(250, 210, 106, 0.2),
+      0 0 60px rgba(250, 210, 106, 0.1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .cinematic-glow:hover {
+    box-shadow: 
+      0 0 30px rgba(250, 210, 106, 0.5),
+      0 0 60px rgba(250, 210, 106, 0.3),
+      0 0 90px rgba(250, 210, 106, 0.2);
+    transform: translateY(-2px) scale(1.02);
+  }
+  
+  .floating-animation {
+    animation: float 6s ease-in-out infinite;
+  }
+  
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+  }
+  
+  .pulse-glow {
+    animation: pulseGlow 2s ease-in-out infinite alternate;
+  }
+  
+  @keyframes pulseGlow {
+    from {
+      box-shadow: 0 0 20px rgba(250, 210, 106, 0.4);
+    }
+    to {
+      box-shadow: 0 0 40px rgba(250, 210, 106, 0.8), 0 0 60px rgba(250, 210, 106, 0.4);
+    }
+  }
+  
+  .slide-in-left {
+    animation: slideInLeft 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .slide-in-right {
+    animation: slideInRight 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .slide-in-up {
+    animation: slideInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  @keyframes slideInLeft {
+    from {
+      opacity: 0;
+      transform: translateX(-50px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  
+  @keyframes slideInRight {
+    from {
+      opacity: 0;
+      transform: translateX(50px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  
+  @keyframes slideInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .fade-in-scale {
+    animation: fadeInScale 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  @keyframes fadeInScale {
+    from {
+      opacity: 0;
+      transform: scale(0.9);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  
+  .shimmer-effect {
+    background: linear-gradient(90deg, 
+      rgba(255, 255, 255, 0) 0%, 
+      rgba(255, 255, 255, 0.2) 50%, 
+      rgba(255, 255, 255, 0) 100%);
+    background-size: 200% 100%;
+    animation: shimmer 2s infinite;
+  }
+  
+  @keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+  
+  .magnetic-hover {
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .magnetic-hover:hover {
+    transform: translateY(-5px) scale(1.05);
+  }
+  
+  .gradient-border {
+    position: relative;
+    background: linear-gradient(135deg, hsl(var(--arabic-gold)), hsl(var(--arabic-blue)));
+    padding: 2px;
+    border-radius: 12px;
+  }
+  
+  .gradient-border::before {
+    content: '';
+    position: absolute;
+    inset: 2px;
+    background: hsl(var(--background));
+    border-radius: 10px;
+    z-index: -1;
+  }
+
+  /* Gold Color Classes - Real Gold Colors */
+  .text-gold-classic { color: #FFD700; }
+  .text-light-gold { color: #FFE55C; }
+  .text-soft-gold { color: #FFC107; }
+  .text-wheat-gold { color: #FFE082; }
+  .text-bright-gold { color: #FFEB3B; }
+  
+  .bg-gold-classic { 
+    background: linear-gradient(135deg, #FFD700 0%, #FFA000 100%);
+    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
+  }
+  .bg-light-gold { 
+    background: linear-gradient(135deg, #FFE55C 0%, #FFC107 100%);
+    box-shadow: 0 4px 15px rgba(255, 229, 92, 0.4);
+  }
+  .bg-soft-gold { 
+    background: linear-gradient(135deg, #FFC107 0%, #FF8F00 100%);
+    box-shadow: 0 4px 15px rgba(255, 193, 7, 0.4);
+  }
+  .bg-wheat-gold { 
+    background: linear-gradient(135deg, #FFE082 0%, #FFC107 100%);
+    box-shadow: 0 4px 15px rgba(255, 224, 130, 0.4);
+  }
+  .bg-bright-gold { 
+    background: linear-gradient(135deg, #FFEB3B 0%, #FFD700 100%);
+    box-shadow: 0 4px 15px rgba(255, 235, 59, 0.4);
+  }
+  
+  .border-gold-classic { border-color: #FFD700; }
+  .border-light-gold { border-color: #FFE55C; }
+  .border-soft-gold { border-color: #FFC107; }
+  .border-wheat-gold { border-color: #FFE082; }
+  .border-bright-gold { border-color: #FFEB3B; }
+  
+  .hover-gold-classic:hover { color: #FFD700; }
+  .hover-light-gold:hover { color: #FFE55C; }
+  .hover-soft-gold:hover { color: #FFC107; }
+  .hover-wheat-gold:hover { color: #FFE082; }
+  .hover-bright-gold:hover { color: #FFEB3B; }
+
+  /* Real Gold Button Effects - Matching Footer Text Color */
+  .btn-gold-real {
+    background-color: #FAD26A; /* Same as "احمد الرفاعي" text color */
+    color: #000;
+    font-weight: 600;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    box-shadow: 
+      0 4px 15px rgba(250, 210, 106, 0.4),
+      0 0 20px rgba(250, 210, 106, 0.2);
+    border: 1px solid rgba(250, 210, 106, 0.6);
+    transition: all 0.3s ease;
+  }
+
+  .btn-gold-real:hover {
+    background-color: #FFD700; /* Brighter gold on hover */
+    box-shadow: 
+      0 6px 20px rgba(250, 210, 106, 0.6),
+      0 0 30px rgba(250, 210, 106, 0.4);
+    transform: translateY(-2px);
+  }
+
+  @keyframes goldShimmer {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+
+  /* Hero Section Vertical Images */
+  .hero-vertical-image {
+    object-fit: cover;
+    object-position: center center;
+    transition: opacity 0.7s ease-in-out, transform 0.7s ease-in-out;
+  }
+
+  .hero-vertical-image:hover {
+    transform: scale(1.02);
+  }
+
+  /* Slide Indicators */
+  .slide-indicator {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .slide-indicator:hover {
+    transform: scale(1.2);
+  }
+
+  .slide-indicator.active {
+    box-shadow: 0 0 10px rgba(250, 210, 106, 0.5);
   }
 
   .dark {

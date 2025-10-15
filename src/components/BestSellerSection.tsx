@@ -81,7 +81,7 @@ export const BestSellerSection = ({ onNavigateToCart, onNavigateToProducts }: Be
           <div className="text-center py-8">
             <p className="text-muted-foreground mb-4">لا توجد منتجات مميزة حالياً</p>
             <p className="text-sm text-muted-foreground">
-              يرجى الذهاب إلى لوحة التحكم وإضافة منتجات أو تحميل البيانات الأولية
+              يرجى الذهاب إلى لوحة التحكم وإضافة منتجات
             </p>
           </div>
         )}
@@ -101,7 +101,7 @@ export const BestSellerSection = ({ onNavigateToCart, onNavigateToProducts }: Be
                 const el = document.getElementById('products-section');
                 if (el) el.scrollIntoView({ behavior: 'smooth' });
               }}
-              className="btn-gold"
+              className="btn-gold-real shadow-lg shadow-gold-classic/30 hover:shadow-xl hover:shadow-gold-classic/50"
             >
               ALL PRODUCTS
             </Button>
