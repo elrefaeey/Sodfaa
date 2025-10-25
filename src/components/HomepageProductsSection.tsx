@@ -3,7 +3,7 @@ import { ProductCard } from './ProductCard';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Offer } from './admin/OfferForm';
-import { useFeaturedProducts, useProductsByCategory } from '@/hooks/useProducts';
+import { useProductsByCategory } from '@/hooks/useProducts';
 import { useCategories } from '@/hooks/useCategories';
 import { useActiveOffers } from '@/hooks/useOffers';
 import { Product } from '@/data/products';
@@ -17,16 +17,13 @@ interface HomepageProductsSectionProps {
 export const HomepageProductsSection = ({ onNavigateToCart, onNavigateToProducts }: HomepageProductsSectionProps) => {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const { categories, loading: categoriesLoading } = useCategories();
-  const { products: featuredProducts, loading: featuredLoading } = useFeaturedProducts();
   const { products: categoryProducts, loading: categoryLoading } = useProductsByCategory(
     selectedCategory === 'all' ? undefined : selectedCategory
   );
   const { offers } = useActiveOffers();
 
-  // Combine all products
-  const allProducts = selectedCategory === 'all' 
-    ? [...featuredProducts, ...categoryProducts]
-    : categoryProducts;
+  // Use category products
+  const allProducts = categoryProducts;
 
   // Remove duplicates
   const uniqueProducts = allProducts.filter((product, index, self) =>
@@ -36,7 +33,7 @@ export const HomepageProductsSection = ({ onNavigateToCart, onNavigateToProducts
   // Limit to 8 products for homepage display
   const displayProducts = uniqueProducts.slice(0, 8);
 
-  const loading = categoriesLoading || featuredLoading || categoryLoading;
+  const loading = categoriesLoading || categoryLoading;
 
   return (
     <section className="py-16 sm:py-20 bg-background">
@@ -45,7 +42,7 @@ export const HomepageProductsSection = ({ onNavigateToCart, onNavigateToProducts
         <div className="text-center mb-8 sm:mb-12">
           <h2 className="text-3xl sm:text-4xl font-bold mb-4">Our Products</h2>
           <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto">
-            Discover our curated collection of premium bags and accessories
+            Discover our curated collection of premium accessories and fashion items
           </p>
         </div>
 
@@ -65,7 +62,7 @@ export const HomepageProductsSection = ({ onNavigateToCart, onNavigateToProducts
             </Button>
             
             {categories.map((category) => {
-              const categoryProductCount = featuredProducts.concat(categoryProducts)
+              const categoryProductCount = categoryProducts
                 .filter(product => product.category === category.id).length;
               
               return (
@@ -103,7 +100,7 @@ export const HomepageProductsSection = ({ onNavigateToCart, onNavigateToProducts
             {/* Category buttons in responsive grid */}
             <div className={`grid gap-2 ${categories.length > 4 ? 'grid-cols-3' : 'grid-cols-2'}`}>
               {categories.map((category) => {
-                const categoryProductCount = featuredProducts.concat(categoryProducts)
+                const categoryProductCount = categoryProducts
                   .filter(product => product.category === category.id).length;
                 
                 return (

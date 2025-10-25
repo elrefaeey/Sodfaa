@@ -1,4 +1,5 @@
 import { Button } from '@/components/ui/button';
+import heroImage from '../WhatsApp Image 2025-10-16 at 01.39.02_229c88d0.jpg';
 
 interface HeroSectionProps {
   onShopNowClick: () => void;
@@ -6,7 +7,7 @@ interface HeroSectionProps {
 
 export const HeroSection = ({ onShopNowClick }: HeroSectionProps) => {
   // Static hero image URL
-  const heroImageUrl = "https://i.pinimg.com/736x/ad/11/50/ad11500c3e0a58418a950252579235a9.jpg";
+  const heroImageUrl = heroImage;
 
   return (
     <section id="home" className="relative w-full h-screen flex items-center justify-center overflow-hidden">
@@ -39,16 +40,16 @@ export const HeroSection = ({ onShopNowClick }: HeroSectionProps) => {
           <div className="mb-6 flex justify-center">
             <div className="w-24 h-1 bg-gradient-to-r from-transparent via-[#FAD26A] to-transparent opacity-80"></div>
           </div>
-          <p className="text-base sm:text-lg lg:text-xl text-white/90 mb-8 slide-in-up [animation-delay:200ms] max-w-2xl mx-auto">
-            FIND EVERYTHING YOU NEED AND MORE —<br />
-            ONLY AT SODFAA STORE
+          <p className="text-lg sm:text-xl lg:text-2xl text-white/90 mb-8 slide-in-up [animation-delay:200ms] max-w-2xl mx-auto leading-relaxed" style={{ fontFamily: 'Aref Ruqaa, serif' }}>
+            كل الي نفسك فيه ف صدفه<br />
+            <span className="text-white font-bold text-xl sm:text-2xl lg:text-3xl">هتلاقيه يبنتخالتي</span>
           </p>
           <div className="slide-in-up [animation-delay:400ms]">
             <Button
               className="btn-gold-real text-sm sm:text-base px-8 sm:px-10 py-3 sm:py-4 magnetic-hover font-bold uppercase tracking-wide"
               onClick={onShopNowClick}
             >
-              SHOP NOW
+              اطلبي من هنا
             </Button>
           </div>
         </div>

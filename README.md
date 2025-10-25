@@ -1,6 +1,6 @@
-# Sodfaa||صُدفةة - Luxury Bags & Accessories 🛍️
+# Sodfaa||صُدفةة - Luxury Accessories & Fashion 🛍️
 
-A modern e-commerce website for luxury bags and accessories, built with React, TypeScript, Tailwind CSS, and Firebase.
+A modern e-commerce website for luxury accessories and fashion items, built with React, TypeScript, Tailwind CSS, and Firebase.
 
 ## ✨ Features
 

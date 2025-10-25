@@ -54,7 +54,8 @@ export const ProductCard = ({ product, offer, onNavigateToCart }: ProductCardPro
   };
 
   const handleCardClick = () => {
-    navigate(`/products/${product.id}`);
+    // Open product details page in new tab
+    window.open(`/products/${product.id}`, '_blank');
   };
 
   const isOnSale = !!product.originalPrice || !!offer;
@@ -164,12 +165,11 @@ export const ProductCard = ({ product, offer, onNavigateToCart }: ProductCardPro
           onClick={handleCardClick}
           disabled={!product.inStock}
         >
-          {product.inStock ? 'Shop Now' : 'Coming Soon'}
+          {product.inStock ? 'اطلبي من هنا' : 'قريباً'}
         </Button>
       </div>
     </div>
 
-    {/* Modal no longer used when navigating to dedicated page */}
   </>
   );
 };

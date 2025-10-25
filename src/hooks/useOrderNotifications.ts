@@ -44,7 +44,7 @@ export const useOrderNotifications = () => {
 
         // Show browser notification if permission granted
         if ('Notification' in window && Notification.permission === 'granted') {
-          new Notification('طلب جديد - SALMA BAG', {
+          new Notification('طلب جديد - Sodfaa||صُدفةة', {
             body: `طلب جديد من ${order.customerName} بقيمة ${order.total.toFixed(2)} جنيه`,
             icon: '/favicon.ico',
             tag: `order-${order.id}`,

@@ -53,7 +53,7 @@ export const Header = ({ onCartClick, cartItemsCount, onBackToHome, onNavigateTo
               className="text-2xl font-bold text-black hover:text-clean-accent transition-all duration-300 font-arabic-elegant magnetic-hover"
               aria-label="العودة للصفحة الرئيسية"
             >
-              Sodfaa||صُدفةة
+              صدفة يبنتخالتي
             </button>
           </div>
 
@@ -97,7 +97,7 @@ export const Header = ({ onCartClick, cartItemsCount, onBackToHome, onNavigateTo
               className="text-xl font-bold text-black hover:text-clean-accent transition-all duration-300 font-arabic-elegant magnetic-hover"
               aria-label="العودة للصفحة الرئيسية"
             >
-              Sodfaa||صُدفةة
+              صدفة يبنتخالتي
             </button>
           </div>
 

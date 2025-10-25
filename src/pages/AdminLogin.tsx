@@ -149,9 +149,7 @@ export const AdminLogin: React.FC<AdminLoginProps> = ({ onBackToHome }) => {
           </CardContent>
         </Card>
 
-        <div className="mt-6 text-center text-sm text-muted-foreground">
-          <p>للحصول على بيانات الدخول، يرجى التواصل مع المطور</p>
-        </div>
+
       </div>
     </div>
   );

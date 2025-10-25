@@ -5,8 +5,9 @@ import { Badge } from '@/components/ui/badge';
 import { useCart } from '@/hooks/useCart';
 import { Product } from '@/data/products';
 import { getProductById, subscribeToProduct } from '@/services/productService';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, Sparkles, ShoppingBag, Clock } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { useOffers } from '@/hooks/useOffers';
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -17,6 +18,19 @@ const ProductDetails = () => {
   const [loading, setLoading] = useState(true);
   const [selectedColorName, setSelectedColorName] = useState<string | null>(null);
   const [quantity, setQuantity] = useState(1);
+  const [isImageZoomed, setIsImageZoomed] = useState(false);
+  const [isAddingToCart, setIsAddingToCart] = useState(false);
+  const [currentTime, setCurrentTime] = useState(new Date());
+  
+  const { offers } = useOffers();
+
+  // Update timer every second
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     let unsubscribe: (() => void) | undefined;
@@ -55,19 +69,49 @@ const ProductDetails = () => {
     return productColors[0];
   }, [productColors, selectedColorName]);
 
-  const isOnSale = !!product?.originalPrice;
-  const originalPrice = product?.originalPrice || product?.price || 0;
-  const displayPrice = product ? (product.originalPrice ? product.price : product.price) : 0;
-  const discountPercentage = product?.originalPrice
-    ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)
-    : 0;
+  // Find active offer for this product
+  const activeOffer = useMemo(() => {
+    if (!product || !offers.length) return null;
+    return offers.find(offer => 
+      offer.productId === product.id && 
+      new Date(offer.endTime) > currentTime
+    );
+  }, [product, offers, currentTime]);
+
+  const isOnSale = !!product?.originalPrice || !!activeOffer;
+  const originalPrice = activeOffer ? product?.price || 0 : (product?.originalPrice || product?.price || 0);
+  const displayPrice = activeOffer 
+    ? (product?.price || 0) * (1 - activeOffer.discount / 100)
+    : (product ? (product.originalPrice ? product.price : product.price) : 0);
+  const discountPercentage = activeOffer 
+    ? activeOffer.discount
+    : (product?.originalPrice ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100) : 0);
+
+  // Countdown timer for offers
+  const getTimeRemaining = (endTime: string) => {
+    const total = new Date(endTime).getTime() - currentTime.getTime();
+    if (total <= 0) return null;
+    
+    const days = Math.floor(total / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((total % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((total % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((total % (1000 * 60)) / 1000);
+    
+    return { days, hours, minutes, seconds };
+  };
 
   const increaseQuantity = () => setQuantity((q) => q + 1);
   const decreaseQuantity = () => setQuantity((q) => Math.max(1, q - 1));
 
-  const handleAddToCart = () => {
+  const handleAddToCart = async () => {
     if (!product || !selectedColor) return;
     if (!product.inStock) return;
+    
+    setIsAddingToCart(true);
+    
+    // Simulate loading for better UX
+    await new Promise(resolve => setTimeout(resolve, 800));
+    
     addToCart({
       productId: product.id,
       name: product.name,
@@ -76,15 +120,20 @@ const ProductDetails = () => {
       image: selectedColor.image,
       color: selectedColor.name
     });
-    // Tiny toast on the side: Arabic message, auto-dismiss quickly
+    
+    // Enhanced toast with sparkles
     toast({
-      title: 'تمت الإضافة إلى السلة',
-      description: `${product.name}`,
-      duration: 2000,
+      title: '✨ تمت الإضافة إلى السلة بنجاح!',
+      description: `${product.name} - الكمية: ${quantity}`,
+      duration: 3000,
     });
+    
+    setIsAddingToCart(false);
     // Navigate to products list to continue shopping
     navigate('/', { state: { openProducts: true } });
   };
+
+
 
   if (loading) {
     return (
@@ -118,18 +167,31 @@ const ProductDetails = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 items-start">
           <div className="w-full">
             <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight mb-3 text-center md:text-left">{product.name}</h1>
-            <div className="relative w-full overflow-hidden bg-transparent flex items-center justify-center rounded-lg shadow-sm">
+            <div 
+              className="relative w-full overflow-hidden bg-transparent flex items-center justify-center rounded-lg shadow-sm cursor-zoom-in group"
+              onMouseEnter={() => setIsImageZoomed(true)}
+              onMouseLeave={() => setIsImageZoomed(false)}
+            >
               {selectedColor && (
                 <img
                   src={selectedColor.image}
                   alt={`${product.name} - ${selectedColor.name}`}
-                  className="block w-full h-auto object-contain max-h-[60vh] sm:max-h-[70vh]"
+                  className={`block w-full h-auto object-contain max-h-[60vh] sm:max-h-[70vh] transition-all duration-500 ${
+                    isImageZoomed ? 'scale-110' : 'scale-100'
+                  }`}
                   onError={(e) => {
                     const target = e.target as HTMLImageElement;
                     target.src = '/api/placeholder/600/600';
                   }}
                 />
               )}
+              
+              {/* Zoom indicator */}
+              <div className={`absolute top-3 right-3 bg-black/70 text-white px-2 py-1 rounded-full text-xs transition-opacity duration-300 ${
+                isImageZoomed ? 'opacity-100' : 'opacity-0'
+              }`}>
+                🔍 Zoomed
+              </div>
               {isOnSale && discountPercentage > 0 && (
                 <div className="absolute top-3 left-3">
                   <span className="inline-flex items-center justify-center rounded-full bg-red-600 text-white text-xs font-bold px-3 py-1 shadow-lg">
@@ -181,22 +243,60 @@ const ProductDetails = () => {
                 )}
               </div>
             )}
-            <div className="mt-2 text-sm text-muted-foreground">
-              Color: {selectedColor?.name}
-            </div>
+            {productColors.length > 1 && (
+              <div className="mt-2 text-sm text-muted-foreground">
+                Color: {selectedColor?.name}
+              </div>
+            )}
           </div>
 
-          <div className="p-1 sm:p-2 w-full">
-            <p className="text-muted-foreground mb-4 leading-relaxed text-sm sm:text-base">{product.description}</p>
+          <div className="p-1 sm:p-2 w-full animate-slide-in-up">
+            <p className="text-foreground mb-4 leading-relaxed text-base sm:text-lg font-medium">{product.description}</p>
+            
+            {/* Offer Countdown Timer */}
+            {activeOffer && (() => {
+              const timeRemaining = getTimeRemaining(activeOffer.endTime);
+              return timeRemaining ? (
+                <div className="mb-2 p-2 bg-gradient-to-r from-red-50 to-orange-50 rounded border border-red-200">
+                  <div className="flex items-center gap-1 mb-1">
+                    <Clock className="h-3 w-3 text-red-600" />
+                    <span className="text-xs font-medium text-red-700">العرض ينتهي خلال:</span>
+                  </div>
+                  <div className="flex items-center gap-1 text-sm font-bold text-red-600">
+                    {timeRemaining.days > 0 && (
+                      <div className="text-center">
+                        <div className="bg-red-600 text-white px-1 py-0.5 rounded text-xs">{timeRemaining.days}</div>
+                        <div className="text-xs text-red-500 mt-0.5">يوم</div>
+                      </div>
+                    )}
+                    <div className="text-center">
+                      <div className="bg-red-600 text-white px-1 py-0.5 rounded text-xs">{timeRemaining.hours.toString().padStart(2, '0')}</div>
+                      <div className="text-xs text-red-500 mt-0.5">ساعة</div>
+                    </div>
+                    <span className="text-red-600 text-xs">:</span>
+                    <div className="text-center">
+                      <div className="bg-red-600 text-white px-1 py-0.5 rounded text-xs">{timeRemaining.minutes.toString().padStart(2, '0')}</div>
+                      <div className="text-xs text-red-500 mt-0.5">دقيقة</div>
+                    </div>
+                    <span className="text-red-600 text-xs">:</span>
+                    <div className="text-center">
+                      <div className="bg-red-600 text-white px-1 py-0.5 rounded text-xs">{timeRemaining.seconds.toString().padStart(2, '0')}</div>
+                      <div className="text-xs text-red-500 mt-0.5">ثانية</div>
+                    </div>
+                  </div>
+                </div>
+              ) : null;
+            })()}
+
             <div className="flex items-center gap-3 mb-3 sm:mb-4">
               {isOnSale && (
                 <Badge className="bg-destructive text-destructive-foreground">-{discountPercentage}%</Badge>
               )}
-              <div className="flex items-baseline gap-2">
-                <span className="text-2xl font-semibold">EGP {product.price.toFixed(2)}</span>
-                {product.originalPrice && (
-                  <span className="text-muted-foreground line-through">EGP {originalPrice.toFixed(2)}</span>
+              <div className="flex flex-col gap-1">
+                {isOnSale && (
+                  <span className="text-sm text-muted-foreground line-through">EGP {originalPrice.toFixed(2)}</span>
                 )}
+                <span className="text-2xl font-semibold text-green-600">EGP {displayPrice.toFixed(2)}</span>
               </div>
             </div>
 
@@ -206,8 +306,23 @@ const ProductDetails = () => {
                 <span className="px-5 sm:px-4 select-none">{quantity}</span>
                 <button className="px-4 py-3 sm:px-3 sm:py-2" onClick={increaseQuantity} aria-label="increase">+</button>
               </div>
-              <Button className="btn-gold-real w-full sm:w-auto py-4 sm:py-2 magnetic-hover" disabled={!product.inStock} onClick={handleAddToCart}>
-                {product.inStock ? 'ADD TO CART' : 'Out of Stock'}
+              <Button 
+                className="btn-dark-gray w-full sm:w-auto py-4 sm:py-2 magnetic-hover relative overflow-hidden" 
+                disabled={!product.inStock || isAddingToCart} 
+                onClick={handleAddToCart}
+              >
+                {isAddingToCart ? (
+                  <div className="flex items-center gap-2">
+                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                    <span>جاري الإضافة...</span>
+                  </div>
+                ) : (
+                  <div className="flex items-center gap-2">
+                    <ShoppingBag className="h-4 w-4" />
+                    <span>{product.inStock ? 'إضافة إلى السلة' : 'غير متوفر'}</span>
+                    <Sparkles className="h-4 w-4 opacity-70" />
+                  </div>
+                )}
               </Button>
             </div>
             <div className="mt-1 text-xs sm:text-sm">

@@ -14,7 +14,7 @@ import { DiscountCodeForm } from '@/components/admin/DiscountCodeForm';
 import { OfferForm, Offer } from '@/components/admin/OfferForm';
 import { CategoryManagement } from '@/components/admin/CategoryManagement';
 import { BannerTextManagement } from '@/components/admin/BannerTextManagement';
-import { ReviewManagement } from '@/components/admin/ReviewManagement';
+import { ReviewImageManagement } from '@/components/admin/ReviewImageManagement';
 import { ProtectedRoute } from '@/components/ProtectedRoute';
 import {
   getAllProducts,
@@ -36,7 +36,7 @@ import {
 } from '@/services/discountService';
 import { useOffers } from '@/hooks/useOffers';
 import { useDiscountCodes } from '@/hooks/useDiscountCodes';
-// import { useReviewStats } from '@/hooks/useReviews';
+import { useOfferCleanup } from '@/hooks/useOfferCleanup';
 
 interface AdminProps {
   onBackToHome: () => void;
@@ -46,6 +46,9 @@ const AdminDashboard = ({ onBackToHome }: AdminProps) => {
   const [products, setProducts] = useState<Product[]>([]);
   const { offers, loading: offersLoading } = useOffers();
   const { discountCodes, loading: discountCodesLoading } = useDiscountCodes();
+  
+  // Auto cleanup expired offers in admin
+  useOfferCleanup();
   const [showProductForm, setShowProductForm] = useState(false);
   const [showOfferForm, setShowOfferForm] = useState(false);
   const [showDiscountCodeForm, setShowDiscountCodeForm] = useState(false);
@@ -291,21 +294,17 @@ const AdminDashboard = ({ onBackToHome }: AdminProps) => {
               <span className="hidden sm:inline">أكواد الخصم</span>
               <span className="sm:hidden">الخصم</span>
             </TabsTrigger>
-            <TabsTrigger value="reviews" className="text-xs sm:text-sm py-2 sm:py-1.5">
-              <span className="hidden sm:inline">التقييمات</span>
-              <span className="sm:hidden">التقييمات</span>
-            </TabsTrigger>
             <TabsTrigger value="banner-text" className="text-xs sm:text-sm py-2 sm:py-1.5">
               <span className="hidden sm:inline">الجملة</span>
               <span className="sm:hidden">الجملة</span>
             </TabsTrigger>
+            <TabsTrigger value="reviews" className="text-xs sm:text-sm py-2 sm:py-1.5">
+              <span className="hidden sm:inline">صور التقييمات</span>
+              <span className="sm:hidden">التقييمات</span>
+            </TabsTrigger>
           </TabsList>
 
 
-          {/* Reviews Tab */}
-          <TabsContent value="reviews" className="space-y-6">
-            <ReviewManagement />
-          </TabsContent>
 
           {/* Banner Text Tab */}
           <TabsContent value="banner-text" className="space-y-6">
@@ -335,7 +334,6 @@ const AdminDashboard = ({ onBackToHome }: AdminProps) => {
                       <tr>
                         <th className="text-left p-4">Image</th>
                         <th className="text-left p-4">Name</th>
-                        <th className="text-left p-4">Category</th>
                         <th className="text-left p-4">Price</th>
                         <th className="text-left p-4">Status</th>
                         <th className="text-left p-4">Actions</th>
@@ -352,11 +350,10 @@ const AdminDashboard = ({ onBackToHome }: AdminProps) => {
                             />
                           </td>
                           <td className="p-4 font-medium">{product.name}</td>
-                          <td className="p-4">{product.category}</td>
                           <td className="p-4">${product.price}</td>
                           <td className="p-4">
                             <Badge variant={product.inStock ? "default" : "secondary"}>
-                              {product.inStock ? "In Stock" : "Out of Stock"}
+                              {product.inStock ? "متوفر في المخزون" : "نفذ من المخزون"}
                             </Badge>
                           </td>
                           <td className="p-4">
@@ -417,7 +414,7 @@ const AdminDashboard = ({ onBackToHome }: AdminProps) => {
                         <div className="flex items-start justify-between gap-3">
                           <p className="font-medium text-base truncate">{product.name}</p>
                           <Badge variant={product.inStock ? "default" : "secondary"}>
-                            {product.inStock ? "In Stock" : "Out of Stock"}
+                            {product.inStock ? "متوفر في المخزون" : "نفذ من المخزون"}
                           </Badge>
                         </div>
                         <p className="text-sm text-muted-foreground truncate">{product.category}</p>
@@ -530,6 +527,11 @@ const AdminDashboard = ({ onBackToHome }: AdminProps) => {
                 </div>
               </div>
             )}
+          </TabsContent>
+
+          {/* Reviews Tab */}
+          <TabsContent value="reviews" className="space-y-6">
+            <ReviewImageManagement />
           </TabsContent>
 
           {/* Discount Codes Tab */}

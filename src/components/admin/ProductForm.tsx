@@ -29,7 +29,6 @@ export const ProductForm = ({ isOpen, onClose, product, onSave }: ProductFormPro
     price: '',
     category: '',
     inStock: true,
-    featured: false
   });
   const [colors, setColors] = useState<ColorInput[]>([{ name: '', image: '' }]);
   const [images, setImages] = useState<string[]>(['']);
@@ -45,7 +44,6 @@ export const ProductForm = ({ isOpen, onClose, product, onSave }: ProductFormPro
         price: product.price.toString(),
         category: product.category,
         inStock: product.inStock,
-        featured: product.featured || false
       });
       setColors(product.colors);
       setImages(product.images);
@@ -56,7 +54,6 @@ export const ProductForm = ({ isOpen, onClose, product, onSave }: ProductFormPro
         price: '',
         category: '',
         inStock: true,
-        featured: false
       });
       setColors([{ name: '', image: '' }]);
       setImages(['']);
@@ -115,7 +112,6 @@ export const ProductForm = ({ isOpen, onClose, product, onSave }: ProductFormPro
       images: validImages,
       colors: validColors,
       inStock: formData.inStock,
-      featured: formData.featured
     };
 
     onSave(productData);
@@ -300,16 +296,11 @@ export const ProductForm = ({ isOpen, onClose, product, onSave }: ProductFormPro
                 onChange={(e) => setFormData({ ...formData, inStock: e.target.checked })}
                 className="rounded"
               />
-              <span>In Stock</span>
+              <span>متوفر في المخزون</span>
             </label>
             <label className="flex items-center gap-2 cursor-pointer">
               <input
                 type="checkbox"
-                checked={formData.featured}
-                onChange={(e) => setFormData({ ...formData, featured: e.target.checked })}
-                className="rounded"
-              />
-              <span>Featured Product</span>
             </label>
           </div>
 

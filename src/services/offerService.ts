@@ -176,7 +176,37 @@ export const deleteOffer = async (offerId: string): Promise<void> => {
   }
 };
 
-// Deactivate expired offers
+// Delete expired offers completely
+export const deleteExpiredOffers = async (): Promise<void> => {
+  try {
+    const offersRef = collection(db, OFFERS_COLLECTION);
+    const now = new Date();
+
+    // Get all offers
+    const querySnapshot = await getDocs(offersRef);
+
+    // Filter expired offers in memory
+    const expiredOffers = querySnapshot.docs.filter(doc => {
+      const data = doc.data();
+      const endTime = data.endTime?.toDate() || new Date();
+      return endTime <= now;
+    });
+
+    // Delete expired offers completely
+    const deletePromises = expiredOffers.map(doc => deleteDoc(doc.ref));
+
+    if (deletePromises.length > 0) {
+      await Promise.all(deletePromises);
+      console.log(`Deleted ${deletePromises.length} expired offers`);
+    }
+  } catch (error) {
+    console.error('Error deleting expired offers:', error);
+    // Don't throw error to prevent blocking the app
+    console.warn('Continuing without deleting expired offers');
+  }
+};
+
+// Deactivate expired offers (keeping for backward compatibility)
 export const deactivateExpiredOffers = async (): Promise<void> => {
   try {
     const offersRef = collection(db, OFFERS_COLLECTION);

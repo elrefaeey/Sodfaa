@@ -171,9 +171,9 @@ export const ProductDetailsModal = ({ product, offer, isOpen, onClose, onNavigat
             </div>
 
             {/* Add to cart or Coming Soon */}
-            <Button className="w-full btn-gold-real text-base py-3 magnetic-hover" onClick={handleAddToCart} disabled={!product.inStock}>
+            <Button className="w-full btn-dark-gray text-base py-3 magnetic-hover" onClick={handleAddToCart} disabled={!product.inStock}>
               <ShoppingCart className="h-5 w-5 mr-2" />
-              {product.inStock ? 'Add to Cart' : 'Coming Soon'}
+              {product.inStock ? 'إضافة إلى السلة' : 'قريباً'}
             </Button>
 
             {/* Labels */}

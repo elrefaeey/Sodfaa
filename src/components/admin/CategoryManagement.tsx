@@ -18,8 +18,8 @@ export const CategoryManagement: React.FC = () => {
   const [editingCategory, setEditingCategory] = useState<Category | null>(null)
   const [isLoading, setIsLoading] = useState(false)
 
-  // dialog form data (name only)
-  const [formData, setFormData] = useState({ name: '' })
+  // dialog form data (name and image)
+  const [formData, setFormData] = useState({ name: '', image: '' })
 
   // inline quick add field
   const [quickName, setQuickName] = useState('')
@@ -27,10 +27,10 @@ export const CategoryManagement: React.FC = () => {
   const handleOpenDialog = (category?: Category) => {
     if (category) {
       setEditingCategory(category)
-      setFormData({ name: category.name })
+      setFormData({ name: category.name, image: category.image })
     } else {
       setEditingCategory(null)
-      setFormData({ name: '' })
+      setFormData({ name: '', image: '' })
     }
     setShowDialog(true)
   }
@@ -38,7 +38,7 @@ export const CategoryManagement: React.FC = () => {
   const handleCloseDialog = () => {
     setShowDialog(false)
     setEditingCategory(null)
-    setFormData({ name: '' })
+    setFormData({ name: '', image: '' })
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -49,13 +49,21 @@ export const CategoryManagement: React.FC = () => {
       return
     }
 
+    console.log('Submitting category data:', formData);
+
     setIsLoading(true)
     try {
       if (editingCategory) {
-        await updateCategory(editingCategory.id, { name: formData.name.trim() })
+        await updateCategory(editingCategory.id, { 
+          name: formData.name.trim(),
+          image: formData.image.trim() || undefined
+        })
         toast({ title: 'تم تحديث الفئة', description: 'تم تحديث الفئة بنجاح' })
       } else {
-        await addCategory({ name: formData.name.trim() })
+        await addCategory({ 
+          name: formData.name.trim(),
+          image: formData.image.trim() || undefined
+        })
         toast({ title: 'تم إضافة الفئة', description: 'تم إضافة الفئة بنجاح' })
       }
       handleCloseDialog()
@@ -170,8 +178,22 @@ export const CategoryManagement: React.FC = () => {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             {categories.map((category) => (
-              <Card key={category.id} className="group hover:shadow-lg transition-all duration-200 border border-gray-200 hover:border-gray-300 rounded-xl">
+              <Card key={category.id} className="group hover:shadow-lg transition-all duration-200 border border-gray-200 hover:border-gray-300 rounded-lg">
                 <CardContent className="p-5">
+                  {/* Category Image */}
+                  {category.image && (
+                    <div className="mb-4">
+                      <img 
+                        src={category.image} 
+                        alt={category.name}
+                        className="w-full h-48 object-cover rounded-lg border border-gray-200"
+                        onError={(e) => {
+                          e.currentTarget.style.display = 'none';
+                        }}
+                      />
+                    </div>
+                  )}
+                  
                   <div className="flex items-center justify-between gap-4">
                     <h3 className="font-semibold text-xl truncate text-gray-800 group-hover:text-slate-700 transition-colors">
                       {category.name}
@@ -230,7 +252,7 @@ export const CategoryManagement: React.FC = () => {
 
       {/* Dialog: Add/Edit name only */}
       <Dialog open={showDialog} onOpenChange={handleCloseDialog}>
-        <DialogContent aria-describedby="category-dialog-description" className="sm:max-w-md rounded-2xl">
+        <DialogContent aria-describedby="category-dialog-description" className="sm:max-w-lg w-full max-h-[90vh] overflow-y-auto rounded-lg">
           <DialogHeader className="space-y-1">
             <DialogTitle className="text-xl font-bold">
               {editingCategory ? 'تعديل الفئة' : 'إضافة فئة جديدة'}
@@ -249,15 +271,38 @@ export const CategoryManagement: React.FC = () => {
                 onChange={(e) => setFormData((prev) => ({ ...prev, name: e.target.value }))}
                 placeholder="أدخل اسم الفئة الجديدة"
                 required
-                className="h-12 rounded-xl text-lg"
+                className="h-12 rounded-lg text-lg"
               />
+            </div>
+            
+            <div className="space-y-2">
+              <Label htmlFor="image">صورة الفئة</Label>
+              <Input
+                id="image"
+                value={formData.image}
+                onChange={(e) => setFormData((prev) => ({ ...prev, image: e.target.value }))}
+                placeholder="أدخل رابط الصورة"
+                className="h-12 rounded-lg text-lg"
+              />
+              {formData.image && (
+                <div className="mt-3">
+                  <img 
+                    src={formData.image} 
+                    alt="معاينة الصورة" 
+                    className="w-full h-48 object-cover rounded-lg border-2 border-gray-200 shadow-sm"
+                    onError={(e) => {
+                      e.currentTarget.style.display = 'none';
+                    }}
+                  />
+                </div>
+              )}
             </div>
 
             <div className="flex flex-col sm:flex-row justify-end gap-3 pt-2">
-              <Button type="button" variant="outline" onClick={handleCloseDialog} className="h-10 rounded-xl">
+              <Button type="button" variant="outline" onClick={handleCloseDialog} className="h-10 rounded-lg">
                 إلغاء
               </Button>
-              <Button type="submit" disabled={isLoading} className="h-10 rounded-xl btn-gold-real magnetic-hover">
+              <Button type="submit" disabled={isLoading} className="h-10 rounded-lg btn-gold-real magnetic-hover">
                 {isLoading ? 'جارٍ الحفظ...' : editingCategory ? 'تحديث الفئة' : 'إضافة الفئة'}
               </Button>
             </div>

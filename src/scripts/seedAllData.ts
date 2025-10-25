@@ -40,7 +40,7 @@ const sampleOffers = [
 const sampleHeroImages = [
   {
     url: "/api/placeholder/1200/600",
-    alt: "Sodfaa||صُدفةة - Luxury Bags Collection",
+    alt: "Sodfaa||صُدفةة - Luxury Accessories Collection",
     title: "مجموعة الحقائب الفاخرة",
     subtitle: "اكتشف الأناقة والجودة في كل قطعة",
     isActive: true,
@@ -50,7 +50,7 @@ const sampleHeroImages = [
   },
   {
     url: "/api/placeholder/1200/600",
-    alt: "Sodfaa||صُدفةة - Premium Leather Bags",
+    alt: "Sodfaa||صُدفةة - Premium Leather Accessories",
     title: "حقائب جلدية فاخرة",
     subtitle: "صناعة يدوية بجودة عالية",
     isActive: true,
@@ -276,5 +276,6 @@ export const seedAllData = async () => {
 if (typeof window !== 'undefined') {
   (window as any).seedAllData = seedAllData;
 }
+
 
 

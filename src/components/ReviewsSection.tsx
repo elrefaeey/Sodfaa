@@ -1,191 +1,142 @@
-import React, { useState } from 'react';
-import { StarRating } from './StarRating';
-import { useApprovedReviews } from '../hooks/useReviews';
-import { Star, Quote } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { ChevronLeft, ChevronRight, Star } from 'lucide-react';
+import { ReviewImage, getActiveReviewImages } from '@/services/reviewImageService';
 
-export const ReviewsSection: React.FC = () => {
-  const { reviews, loading: reviewsLoading } = useApprovedReviews(6);
-  const [formRating, setFormRating] = useState(0);
-  const [showForm, setShowForm] = useState(false);
+export const ReviewsSection = () => {
+  const [currentReview, setCurrentReview] = useState(0);
+  const [reviewImages, setReviewImages] = useState<ReviewImage[]>([]);
 
-  if (reviewsLoading) {
-    return (
-      <section className="py-20 bg-gradient-to-br from-slate-50 to-gray-100">
-        <div className="container mx-auto px-4">
-          <div className="text-center">
-            <div className="animate-pulse">
-              <div className="h-8 bg-gray-300 rounded w-64 mx-auto mb-4"></div>
-              <div className="h-4 bg-gray-300 rounded w-96 mx-auto"></div>
-            </div>
-          </div>
-        </div>
-      </section>
-    );
-  }
+  // Load review images from Firebase
+  useEffect(() => {
+    const loadReviewImages = async () => {
+      try {
+        const activeReviews = await getActiveReviewImages();
+        setReviewImages(activeReviews);
+      } catch (error) {
+        console.error('Error loading review images:', error);
+        // Keep default reviews if Firebase fails
+      }
+    };
 
-  if (reviews.length === 0) {
-    return (
-      <section className="py-20 bg-gradient-to-br from-slate-50 to-gray-100">
-        <div className="container mx-auto px-4">
-          <div className="text-center">
-            <h2 className="text-3xl font-bold text-gray-900 mb-3 font-arabic-elegant">
-              ⭐ آراء عملائنا
-            </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-8">
-              اكتشف ما يقوله عملاؤنا عن تجربتهم مع Sodfaa||صُدفةة
-            </p>
-            <div className="bg-white rounded-xl p-8 shadow-lg max-w-md mx-auto">
-              <div className="text-center">
-                <Star className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-                <h3 className="text-xl font-semibold text-gray-700 mb-2">
-                  لا توجد تقييمات بعد
-                </h3>
-                <p className="text-gray-500 mb-6">
-                  اذهب إلى لوحة التحكم وأضف تقييمات لعملائك
-                </p>
-                <div className="text-sm text-gray-400">
-                  لوحة التحكم → التقييمات → إضافة تقييم
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-    );
-  }
+    loadReviewImages();
+  }, []);
+
+  // If no reviews from admin, show default placeholder reviews
+  const defaultReviews: ReviewImage[] = [
+    {
+      id: '1',
+      imageUrl: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23f3f4f6'/%3E%3Ctext x='200' y='150' font-family='Arial' font-size='16' fill='%236b7280' text-anchor='middle' dy='.3em'%3Eصورة تقييم 1%3C/text%3E%3C/svg%3E",
+      isActive: true,
+      order: 1,
+      createdAt: new Date()
+    },
+    {
+      id: '2',
+      imageUrl: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23f3f4f6'/%3E%3Ctext x='200' y='150' font-family='Arial' font-size='16' fill='%236b7280' text-anchor='middle' dy='.3em'%3Eصورة تقييم 2%3C/text%3E%3C/svg%3E",
+      isActive: true,
+      order: 2,
+      createdAt: new Date()
+    },
+    {
+      id: '3',
+      imageUrl: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23f3f4f6'/%3E%3Ctext x='200' y='150' font-family='Arial' font-size='16' fill='%236b7280' text-anchor='middle' dy='.3em'%3Eصورة تقييم 3%3C/text%3E%3C/svg%3E",
+      isActive: true,
+      order: 3,
+      createdAt: new Date()
+    },
+    {
+      id: '4',
+      imageUrl: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23f3f4f6'/%3E%3Ctext x='200' y='150' font-family='Arial' font-size='16' fill='%236b7280' text-anchor='middle' dy='.3em'%3Eصورة تقييم 4%3C/text%3E%3C/svg%3E",
+      isActive: true,
+      order: 4,
+      createdAt: new Date()
+    }
+  ];
+
+  const reviews = reviewImages.length > 0 ? reviewImages : defaultReviews;
+
+  const nextReview = () => {
+    setCurrentReview((prev) => (prev + 1) % reviews.length);
+  };
+
+  const prevReview = () => {
+    setCurrentReview((prev) => (prev - 1 + reviews.length) % reviews.length);
+  };
+
+  const goToReview = (index: number) => {
+    setCurrentReview(index);
+  };
 
   return (
-    <section className="py-20 bg-gradient-to-br from-slate-50 to-gray-100">
-      <div className="container mx-auto px-4">
-        {/* Header */}
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-gray-900 mb-3 font-arabic-elegant">
-            ⭐ آراء عملائنا
+    <section className="py-20 bg-black text-white">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Section Title */}
+        <div className="text-center mb-16">
+          <h2 className="text-4xl font-bold mb-4" style={{ fontFamily: 'Aref Ruqaa, serif' }}>
+            شوفي فيدباك بنات خالتك
           </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            اكتشف ما يقوله عملاؤنا عن تجربتهم مع Sodfaa||صُدفةة
-          </p>
+          <div className="w-24 h-1 bg-red-600 mx-auto"></div>
         </div>
 
+        {/* Reviews Carousel */}
+        <div className="relative max-w-4xl mx-auto">
+          {/* Navigation Arrows */}
+          <button
+            onClick={prevReview}
+            className="absolute left-4 top-1/2 transform -translate-y-1/2 z-10 bg-white bg-opacity-20 hover:bg-opacity-30 rounded-full p-3 transition-all duration-300"
+          >
+            <ChevronLeft className="w-6 h-6 text-white" />
+          </button>
 
-        {/* Reviews Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {reviews.map((review) => (
-            <div
-              key={review.id}
-              className="bg-white rounded-xl p-5 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border-l-4 border-gold-classic"
-            >
-              {/* Customer Name and Rating */}
-              <div className="mb-4">
-                <h4 className="font-bold text-gray-900 text-lg mb-2">{review.customerName}</h4>
-                <StarRating rating={review.rating} size="sm" />
+          <button
+            onClick={nextReview}
+            className="absolute right-4 top-1/2 transform -translate-y-1/2 z-10 bg-white bg-opacity-20 hover:bg-opacity-30 rounded-full p-3 transition-all duration-300"
+          >
+            <ChevronRight className="w-6 h-6 text-white" />
+          </button>
+
+          {/* Review Card - Image Only */}
+          <div className="bg-white rounded-3xl p-4 mx-12 shadow-2xl relative">
+            {/* Review Image Only */}
+            <div className="flex justify-center">
+              <div className="w-full max-w-lg rounded-lg overflow-hidden shadow-lg">
+                <img
+                  src={reviews[currentReview].imageUrl}
+                  alt="تقييم عميل"
+                  className="w-full h-auto object-cover"
+                  onError={(e) => {
+                    // Fallback to placeholder if image fails to load
+                    const target = e.target as HTMLImageElement;
+                    target.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23f3f4f6'/%3E%3Ctext x='200' y='150' font-family='Arial' font-size='16' fill='%236b7280' text-anchor='middle' dy='.3em'%3Eصورة التقييم%3C/text%3E%3C/svg%3E";
+                  }}
+                />
               </div>
+            </div>
 
-              {/* Review Text */}
-              <div className="relative">
-                <Quote className="w-6 h-6 text-gray-300 absolute -top-1 -right-1" />
-                <p className="text-gray-700 leading-relaxed text-base pr-4 italic">
-                  "{review.comment}"
-                </p>
+            {/* Heart Icon */}
+            <div className="absolute -bottom-4 left-8">
+              <div className="bg-red-500 rounded-lg p-3 shadow-lg">
+                <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd" />
+                </svg>
               </div>
             </div>
-          ))}
-        </div>
+          </div>
 
-        {/* Review Form - Fake form for customer satisfaction only, data is not saved */}
-        <div className="text-center mt-12">
-          {!showForm ? (
-            <div className="bg-white rounded-xl p-8 shadow-lg max-w-xl mx-auto">
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">
-                💬 شاركنا تجربتك
-              </h3>
-              <p className="text-gray-600 mb-6">
-                هل جربت منتجاتنا؟ نحب أن نسمع رأيك!
-              </p>
-              <button 
-                className="btn-gold-real px-8 py-3 rounded-full magnetic-hover text-lg font-semibold"
-                onClick={() => setShowForm(true)}
-              >
-                اترك تقييمك
-              </button>
-            </div>
-          ) : (
-            <div className="bg-white rounded-xl p-8 shadow-lg max-w-2xl mx-auto">
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">
-                💬 شاركنا تجربتك
-              </h3>
-              <p className="text-gray-600 mb-6">
-                هل جربت منتجاتنا؟ نحب أن نسمع رأيك!
-              </p>
-              
-              <form className="space-y-4 text-right">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    اسمك *
-                  </label>
-                  <input
-                    type="text"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gold-classic focus:border-gold-classic"
-                    placeholder="أدخل اسمك"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    تقييمك *
-                  </label>
-                  <div className="flex justify-center">
-                    <StarRating 
-                      rating={formRating} 
-                      interactive={true} 
-                      size="lg" 
-                      onRatingChange={setFormRating}
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    تعليقك *
-                  </label>
-                  <textarea
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gold-classic focus:border-gold-classic"
-                    rows={4}
-                    placeholder="شاركنا رأيك عن منتجاتنا..."
-                  ></textarea>
-                </div>
-
-                <div className="flex gap-3 justify-center">
-                  <button 
-                    type="submit" 
-                    className="btn-gold-real px-8 py-3 rounded-full magnetic-hover text-lg font-semibold"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      // Fake form - data is not saved, just for customer satisfaction
-                      // إعادة تعيين الفورم
-                      setFormRating(0);
-                      const form = e.currentTarget.closest('form');
-                      if (form) {
-                        form.reset();
-                      }
-                      alert('شكراً لك! تم إرسال تقييمك بنجاح. سنراجعه ونعرضه قريباً.\n\nملاحظة: هذا التقييم للعرض فقط ولا يتم حفظه.');
-                      setShowForm(false);
-                    }}
-                  >
-                    إرسال التقييم
-                  </button>
-                  
-                  <button 
-                    type="button" 
-                    className="px-8 py-3 rounded-full border border-gray-300 text-gray-700 hover:bg-gray-50 transition-colors text-lg font-semibold"
-                    onClick={() => setShowForm(false)}
-                  >
-                    إلغاء
-                  </button>
-                </div>
-              </form>
-            </div>
-          )}
+          {/* Dots Indicator */}
+          <div className="flex justify-center mt-8 space-x-2">
+            {reviews.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => goToReview(index)}
+                className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                  index === currentReview
+                    ? 'bg-white'
+                    : 'bg-white bg-opacity-30 hover:bg-opacity-50'
+                }`}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </section>

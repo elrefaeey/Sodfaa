@@ -3,7 +3,6 @@ import { Product } from '@/data/products';
 import { 
   getAllProducts, 
   getProductsByCategory, 
-  getFeaturedProducts,
   subscribeToProducts 
 } from '@/services/productService';
 
@@ -72,28 +71,3 @@ export const useProductsByCategory = (category: string) => {
   return { products, loading, error };
 };
 
-export const useFeaturedProducts = () => {
-  const [products, setProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const loadProducts = async () => {
-      try {
-        setLoading(true);
-        const productsData = await getFeaturedProducts();
-        setProducts(productsData);
-        setError(null);
-      } catch (err) {
-        setError('Failed to load featured products');
-        console.error('Error loading featured products:', err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadProducts();
-  }, []);
-
-  return { products, loading, error };
-};

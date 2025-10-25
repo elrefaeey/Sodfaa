@@ -2,11 +2,12 @@ import { useState } from 'react';
 import { Header } from '@/components/Header';
 import { HeroSection } from '@/components/HeroSection';
 import { BannerTextSection } from '@/components/BannerTextSection';
-import { BestSellerSection } from '@/components/BestSellerSection';
-import { ReviewsSection } from '@/components/ReviewsSection';
 import { Footer } from '@/components/Footer';
 import { CartSidebar } from '@/components/CartSidebar';
 import { FloatingSocialIcons } from '@/components/FloatingSocialIcons';
+import { CategoriesSection } from '@/components/CategoriesSection';
+import { ServicesSection } from '@/components/ServicesSection';
+import { ReviewsSection } from '@/components/ReviewsSection';
 import { Checkout } from '@/pages/Checkout';
 import { Products } from '@/pages/Products';
 import { Admin } from '@/pages/Admin';
@@ -31,7 +32,7 @@ const Index = () => {
     setIsCartOpen
   } = useCart();
 
-  const scrollToBestSellers = () => {
+  const scrollToProducts = () => {
     setCurrentPage('products');
   };
 
@@ -86,11 +87,13 @@ const Index = () => {
       />
       
       <main>
-        <HeroSection onShopNowClick={scrollToBestSellers} />
+        <HeroSection onShopNowClick={scrollToProducts} />
         
         <BannerTextSection />
 
-        <BestSellerSection onNavigateToCart={() => setCurrentPage('checkout')} onNavigateToProducts={() => setCurrentPage('products')} />
+        <CategoriesSection onNavigateToProducts={() => setCurrentPage('products')} />
+        
+        <ServicesSection />
         
         <ReviewsSection />
       </main>

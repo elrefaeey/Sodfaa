@@ -14,6 +14,8 @@ export interface Offer {
   productId: string;
   productName: string;
   discount: number;
+  originalPrice: number;
+  images?: string[];
   endTime: Date;
   isActive: boolean;
 }
@@ -76,6 +78,8 @@ export const OfferForm = ({ isOpen, onClose, products, onSave }: OfferFormProps)
       productId: formData.productId,
       productName: selectedProduct.name,
       discount,
+      originalPrice: selectedProduct.price,
+      images: selectedProduct.images,
       endTime,
       isActive: true,
     };
@@ -120,6 +124,52 @@ export const OfferForm = ({ isOpen, onClose, products, onSave }: OfferFormProps)
               </Select>
               <p className="text-xs text-muted-foreground">يظهر هنا فقط المنتجات المتوفرة بالمخزون</p>
             </div>
+
+            {/* Product Preview */}
+            {formData.productId && (
+              <div className="mt-4 p-4 bg-gray-50 rounded-xl">
+                {(() => {
+                  const selectedProduct = products.find(p => p.id === formData.productId);
+                  if (!selectedProduct) return null;
+                  
+                  const discount = parseFloat(formData.discount) || 0;
+                  const discountedPrice = selectedProduct.price * (1 - discount / 100);
+                  
+                  return (
+                    <div className="flex gap-4 items-center">
+                      {/* Product Image */}
+                      <div className="w-20 h-20 rounded-lg overflow-hidden bg-gray-200 flex-shrink-0">
+                        <img
+                          src={selectedProduct.images[0] || '/api/placeholder/80/80'}
+                          alt={selectedProduct.name}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                      
+                      {/* Product Info */}
+                      <div className="flex-1 min-w-0">
+                        <h4 className="font-semibold text-sm truncate">{selectedProduct.name}</h4>
+                        <div className="flex items-center gap-2 mt-1">
+                          <span className="text-lg font-bold text-[#D4AF37]">
+                            {discount > 0 ? `${discountedPrice.toFixed(2)} جنيه` : `${selectedProduct.price} جنيه`}
+                          </span>
+                          {discount > 0 && (
+                            <span className="text-sm text-gray-500 line-through">
+                              {selectedProduct.price} جنيه
+                            </span>
+                          )}
+                        </div>
+                        {discount > 0 && (
+                          <div className="text-xs text-green-600 mt-1">
+                            وفر {(selectedProduct.price - discountedPrice).toFixed(2)} جنيه ({discount}% خصم)
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })()}
+              </div>
+            )}
           </section>
 
           {/* Discount Section */}

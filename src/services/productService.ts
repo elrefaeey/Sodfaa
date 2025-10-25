@@ -65,28 +65,6 @@ export const getProductsByCategory = async (category: string): Promise<Product[]
   }
 };
 
-// Get featured products
-export const getFeaturedProducts = async (): Promise<Product[]> => {
-  try {
-    // Get all products first, then filter on client side
-    const allProducts = await getAllProducts();
-
-    // Filter featured products on client side
-    const featuredProducts = allProducts.filter(product => product.featured === true);
-
-    return featuredProducts;
-  } catch (error) {
-    console.error('Error fetching featured products:', error);
-    // If no featured products, return first 4 products
-    try {
-      const allProducts = await getAllProducts();
-      return allProducts.slice(0, 4);
-    } catch (fallbackError) {
-      console.error('Error fetching fallback products:', fallbackError);
-      return [];
-    }
-  }
-};
 
 // Get a single product by id
 export const getProductById = async (productId: string): Promise<Product | null> => {

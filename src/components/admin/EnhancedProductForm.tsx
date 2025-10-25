@@ -40,7 +40,6 @@ export const EnhancedProductForm: React.FC<EnhancedProductFormProps> = ({
     category: '',
     description: '',
     inStock: true,
-    featured: false
   });
   
   const [colors, setColors] = useState<Color[]>([{ name: '', image: '' }]);
@@ -56,7 +55,6 @@ export const EnhancedProductForm: React.FC<EnhancedProductFormProps> = ({
         category: product.category,
         description: product.description,
         inStock: product.inStock,
-        featured: product.featured || false
       });
       setColors(product.colors.length > 0 ? product.colors : [{ name: '', image: '' }]);
     } else {
@@ -66,7 +64,6 @@ export const EnhancedProductForm: React.FC<EnhancedProductFormProps> = ({
         category: '',
         description: '',
         inStock: true,
-        featured: false
       });
       setColors([{ name: '', image: '' }]);
     }
@@ -130,7 +127,6 @@ export const EnhancedProductForm: React.FC<EnhancedProductFormProps> = ({
       images: validColors.map(color => color.image),
       colors: validColors,
       inStock: formData.inStock,
-      featured: formData.featured
     };
 
     onSave(productData);
@@ -294,7 +290,6 @@ export const EnhancedProductForm: React.FC<EnhancedProductFormProps> = ({
                           )}
                         </div>
                       </div>
-                      <Label htmlFor="featured" className="text-sm font-medium text-gray-700">منتج مميز</Label>
                     </div>
                     <Switch 
                       id="featured" 

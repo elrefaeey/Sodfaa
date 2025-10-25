@@ -77,7 +77,7 @@ export const BannerTextManagement = () => {
       <div>
         <h2 className="text-2xl font-bold">إدارة الجملة الإعلانية</h2>
         <p className="text-sm text-muted-foreground mt-1">
-          الجملة تظهر في الصفحة الرئيسية تحت صور الغلاف وفوق Best Sellers
+          الجملة تظهر في الصفحة الرئيسية تحت صور الغلاف
         </p>
       </div>
 

@@ -488,6 +488,74 @@
     50% { background-position: 100% 50%; }
   }
 
+  /* Product Page Animations */
+  @keyframes heartBeat {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+  }
+
+  @keyframes sparkle {
+    0%, 100% { opacity: 0.7; transform: rotate(0deg); }
+    50% { opacity: 1; transform: rotate(180deg); }
+  }
+
+  @keyframes slideInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-heart-beat {
+    animation: heartBeat 1s ease-in-out;
+  }
+
+  .animate-sparkle {
+    animation: sparkle 2s ease-in-out infinite;
+  }
+
+  .animate-slide-in-up {
+    animation: slideInUp 0.6s ease-out;
+  }
+
+  /* Enhanced hover effects */
+  .product-image-container:hover .zoom-indicator {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .zoom-indicator {
+    opacity: 0;
+    transform: scale(0.8);
+    transition: all 0.3s ease;
+  }
+
+  /* Dark Gray Button for Add to Cart - Matching Back Button Color */
+  .btn-dark-gray {
+    background-color: #374957; /* Same as back button */
+    color: white;
+    font-weight: 600;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    box-shadow: 
+      0 4px 15px rgba(55, 73, 87, 0.4),
+      0 0 20px rgba(55, 73, 87, 0.2);
+    border: 1px solid rgba(55, 73, 87, 0.6);
+    transition: all 0.3s ease;
+  }
+
+  .btn-dark-gray:hover {
+    background-color: #4a5d6e; /* Slightly lighter on hover */
+    color: white;
+    box-shadow: 
+      0 6px 20px rgba(55, 73, 87, 0.6),
+      0 0 30px rgba(55, 73, 87, 0.4);
+    transform: translateY(-2px);
+  }
+
   /* Hero Section Vertical Images */
   .hero-vertical-image {
     object-fit: cover;
